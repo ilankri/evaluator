@@ -1,0 +1,5 @@
+justification de nos diagrammes
+-Le systeme a deux types d'utilisateurs donc dans notre diagramme nous avons deux classe (Evalué et Evaluateur).
+-nous avons la classe Depot car peut import le type d'utulisateur il peut faire des dépots.
+-les deux sous classes (rendu et taches),pour faire la distingution si le depot est celui de l'evalué ou l'evaluateur.
+-Le rendu peut etre corrigé par l'evaluateur mais aussi il peut avoir une correction automatique .
