@@ -1,0 +1,1 @@
+object ToBeImplemented extends Throwable

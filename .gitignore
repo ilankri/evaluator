@@ -3,3 +3,6 @@
 
 # Generic patterns
 *.class
+
+# sbt stuff
+target/
