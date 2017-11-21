@@ -1,0 +1,9 @@
+# Compilation
+
+make
+
+# Execution
+
+make run
+
+Then enter 'help' to display the list of available commands.
