@@ -1,3 +1,4 @@
-class Evaluator(_name: String) extends User(_name) {
-  def submit[Format](content: Format) = new Task(this, content)
+class Evaluator(id : Int, name: String, email:String, pswd:String) extends User(id, name, email, pswd) {
+
+
 }
