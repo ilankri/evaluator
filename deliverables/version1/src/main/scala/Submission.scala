@@ -1,16 +1,13 @@
-abstract class Submission[Format](_author: User, _content: Format) {
-  def author: User = _author
-
-  def content: Format = _content
-
-  def id: Int = Submission.freshId()
+ class Submission[format](_id:Int,_author:User,_date:String,_content:format) {
+  val id=_id
+  val author=_author
+  val date=_date
+  val content=_content 
+  def get_id():Int={return id}
+  def get_author():User={return author}
+  def get_date():String={return date}
+  def get_content():format={return content}
 }
 
-object Submission {
-  private var count = 0
 
-  def freshId() = {
-    count += 1
-    count
-  }
-}
+
