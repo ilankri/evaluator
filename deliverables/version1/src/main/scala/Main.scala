@@ -17,24 +17,27 @@ object Main {
     case NewChoice(label, right) => mcq add Choice(Proposition(label), right)
     case Help =>
       println(
-        "help: Display this help\n" +
+        "question <question>: Define a new question\n" +
+          "valid <proposition>: Define a new valid choice for " +
+          "the last entered question\n" +
+          "invalid <proposition>: Define a new invalid choice for " +
+          "the last entered question\n" +
+          "answer: Start answering the defined MCQ\n" +
           "quit: Quit the program\n" +
-          "newq <question>: Define a new question\n" +
-          "newc <proposition> <status>: Define a new choice" +
-          "with its status(true or false)\n" +
-          "answer: Start answering the MCQ"
+          "help: Display this help"
       )
       mcq
   }
 
   def parseCmd(command: String): Command = {
-    val (cmd, rest) = command.span(_ != ' ')
-    val args = rest.trim.split(' ')
+    val (cmd, _rest) = command.span(_ != ' ')
+    val rest = _rest.trim
+
     cmd match {
       case "quit" => Quit
-      case "newq" if args.length >= 1 => NewQuestion(args(0))
-      case "new" if args.length >= 2 =>
-        NewChoice(args(0), args(1).toBoolean)
+      case "question" => NewQuestion(rest)
+      case "valid" => NewChoice(rest, true)
+      case "invalid" => NewChoice(rest, false)
       case "answer" => StartAnswer
       case "help" => Help
       case _ => throw InvalidCommand
@@ -53,8 +56,9 @@ object Main {
       } catch {
         case StartQALoop => mcq_defined = true
         case Exit => System.exit(0)
-        case InvalidCommand => println("Invalid command.")
-        case _: Throwable => println("Invalid command.")
+        case InvalidCommand | _: java.util.NoSuchElementException =>
+          println("Invalid command.\n" +
+            "Hint: type 'help' to display the list of available commands.")
       }
     }
 
@@ -72,7 +76,8 @@ object Main {
               mcq.questions(i).choices(s.toInt - 1).proposition).toSet)
           )
         } catch {
-          case e: NumberFormatException => answer
+          case _: NumberFormatException |  _: IndexOutOfBoundsException =>
+            answer
         }
     }
     println("Result: " + (new AutoCorrector(mcq)).correct(answer) +
