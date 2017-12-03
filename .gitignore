@@ -6,3 +6,6 @@
 
 # sbt stuff
 target/
+
+# Play stuff
+logs/
