@@ -30,18 +30,28 @@ object Main {
   }
 
   def parseCmd(command: String): Command = {
-    val (cmd, _rest) = command.span(_ != ' ')
-    val rest = _rest.trim
+    if (command == null) {
+      Quit
+    } else {
 
-    cmd match {
-      case "quit" => Quit
-      case "question" => NewQuestion(rest)
-      case "valid" => NewChoice(rest, true)
-      case "invalid" => NewChoice(rest, false)
-      case "answer" => StartAnswer
-      case "help" => Help
-      case _ => throw InvalidCommand
+      val (cmd, _rest) = command.span(_ != ' ')
+      val rest = _rest.trim
+
+      cmd match {
+        case "quit" => Quit
+        case "question" => NewQuestion(rest)
+        case "valid" => NewChoice(rest, true)
+        case "invalid" => NewChoice(rest, false)
+        case "answer" => StartAnswer
+        case "help" => Help
+        case _ => throw InvalidCommand
+      }
     }
+  }
+
+  def printPrompt() = {
+    print("> ")
+    Console.flush()
   }
 
   def main(args: Array[String]): Unit = {
@@ -52,7 +62,7 @@ object Main {
     var answer = Answer(Seq())
 
     while (!mcq_defined) {
-      print("> ")
+      printPrompt()
       try {
         mcq = eval(parseCmd(StdIn.readLine()), mcq)
       } catch {
@@ -70,17 +80,24 @@ object Main {
       for (j <- 0 until mcq.questions(i).choices.length) {
         println(s"  ${j + 1}. ${mcq.questions(i).choices(j).proposition.label}")
       }
-      print("> ")
-      answer =
-        try {
-          Answer(
-            answer.choices.updated(i, StdIn.readLine().split(' ').map(s =>
-              mcq.questions(i).choices(s.toInt - 1).proposition).toSet)
-          )
-        } catch {
-          case _: NumberFormatException |  _: IndexOutOfBoundsException =>
-            answer
+      printPrompt()
+      answer = {
+        val choices = StdIn.readLine()
+
+        if (choices == null) {
+          throw Exit
+        } else {
+          try {
+            Answer(
+              answer.choices.updated(i, choices.split(' ').map(s =>
+                mcq.questions(i).choices(s.toInt - 1).proposition).toSet)
+            )
+          } catch {
+            case _: NumberFormatException |  _: IndexOutOfBoundsException =>
+              answer
+          }
         }
+      }
     }
     println("Result: " + (new AutoCorrector(mcq)).correct(answer) +
       "/" + mcq.questions.length)
