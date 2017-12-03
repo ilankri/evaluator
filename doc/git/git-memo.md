@@ -5,7 +5,7 @@
 Pour communiquer avec le serveur Git de la fac, il faut créer une clé
 SSH et l'ajouter à son compte sur le GitLab de l'UFR d'informatique.
 
-Pour cela, il suffit se connecter à l'adresse suivante :
+Pour cela, il suffit de se connecter à l'adresse suivante :
 
 http://moule.informatique.univ-paris-diderot.fr:8080/profile/keys
 
