@@ -1,105 +1,24 @@
-sealed abstract class Command
-case object Quit extends Command
-case class NewQuestion(label: String) extends Command
-case class NewChoice(label: String, right: Boolean) extends Command
-case object StartAnswer extends Command
-case object Help extends Command
-
-object InvalidCommand extends Throwable
-object Exit extends Throwable
-object StartQALoop extends Throwable
-
 object Main {
-  def eval(cmd: Command, mcq: MCQ): MCQ = cmd match {
-    case Quit => throw Exit
-    case StartAnswer => throw StartQALoop
-    case NewQuestion(label) => mcq add Question(label, Seq())
-    case NewChoice(label, right) => mcq add Choice(Proposition(label), right)
-    case Help =>
-      println(
-        "question <question>: Define a new question\n" +
-          "valid <proposition>: Define a new valid choice for " +
-          "the last entered question\n" +
-          "invalid <proposition>: Define a new invalid choice for " +
-          "the last entered question\n" +
-          "answer: Start answering the defined MCQ\n" +
-          "quit: Quit the program\n" +
-          "help: Display this help"
-      )
-      mcq
-  }
-
-  def parseCmd(command: String): Command = {
-    if (command == null) {
-      Quit
-    } else {
-
-      val (cmd, _rest) = command.span(_ != ' ')
-      val rest = _rest.trim
-
-      cmd match {
-        case "quit" => Quit
-        case "question" => NewQuestion(rest)
-        case "valid" => NewChoice(rest, true)
-        case "invalid" => NewChoice(rest, false)
-        case "answer" => StartAnswer
-        case "help" => Help
-        case _ => throw InvalidCommand
-      }
-    }
-  }
-
-  def printPrompt() = {
-    print("> ")
-    Console.flush()
-  }
-
   def main(args: Array[String]): Unit = {
-    import scala.io.StdIn
 
-    var mcq = MCQ(Seq())
-    var mcq_defined = false
-    var answer = Answer(Seq())
+    val user1 = new Worker(1, "user1", "user1@test.fr","mdp123");
+    //user.getTask();
+    user1.register("nvx cours");
+    user1.register("un deuxième nvx cours");
 
-    while (!mcq_defined) {
-      printPrompt()
-      try {
-        mcq = eval(parseCmd(StdIn.readLine()), mcq)
-      } catch {
-        case StartQALoop => mcq_defined = true
-        case Exit => System.exit(0)
-        case InvalidCommand | _: java.util.NoSuchElementException =>
-          println("Invalid command.\n" +
-            "Hint: type 'help' to display the list of available commands.")
-      }
-    }
 
-    answer = Answer(Seq.fill(mcq.questions.length)(Set.empty))
-    for (i <- 0 until mcq.questions.length) {
-      println(mcq.questions(i).label)
-      for (j <- 0 until mcq.questions(i).choices.length) {
-        println(s"  ${j + 1}. ${mcq.questions(i).choices(j).proposition.label}")
-      }
-      printPrompt()
-      answer = {
-        val choices = StdIn.readLine()
+    val user2 = new Evaluator(2, "user2", "user2@test.fr","mdp121");
 
-        if (choices == null) {
-          throw Exit
-        } else {
-          try {
-            Answer(
-              answer.choices.updated(i, choices.split(' ').map(s =>
-                mcq.questions(i).choices(s.toInt - 1).proposition).toSet)
-            )
-          } catch {
-            case _: NumberFormatException |  _: IndexOutOfBoundsException =>
-              answer
-          }
-        }
-      }
-    }
-    println("Result: " + (new AutoCorrector(mcq)).correct(answer) +
-      "/" + mcq.questions.length)
+    val etudiant=new Worker(2,"Hamdi","h_h@gmail.com","passw")
+    val subm=new Submission[String](1,etudiant,"21/11/2017","")
+    println(subm.get_id())
+    println(subm.get_author())
+    println(subm.get_date())
+    println(subm.get_content())
+
+    //test class Task
+    //test class Delivrable
+
   }
+
 }
