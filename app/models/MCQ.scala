@@ -1,4 +1,4 @@
-case class MCQ (questions: Seq[Question]) {
+case class MCQ(questions: Seq[Question]) {
   def add(question: Question) = MCQ(questions :+ question)
 
   def add(choice: Choice) = {
