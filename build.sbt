@@ -1,3 +1,5 @@
+import scalariform.formatter.preferences._
+
 name := """evaluator"""
 organization := "group3"
 
@@ -12,6 +14,11 @@ scalacOptions := Seq("-Xlint:_", "-deprecation", "-feature")
 libraryDependencies += guice
 libraryDependencies +=
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
+
+/* Configure Scalariform to follow Scala style guide.  */
+scalariformPreferences := scalariformPreferences.value
+  .setPreference(DoubleIndentConstructorArguments, true)
+  .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
 
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "group3.controllers._"
