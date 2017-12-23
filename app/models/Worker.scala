@@ -1,6 +1,11 @@
 package models
 
-class Worker(id: Int, name: String, email: String, pswd: String) extends User(id, name, email, pswd) {
+class Worker(
+    id: Int,
+    name: String,
+    email: String,
+    pswd: String)
+  extends User(id, name, email, pswd) {
 
   def register(task: String): Unit = {
     taskWorker = task :: taskWorker;

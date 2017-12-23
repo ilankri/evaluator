@@ -1,6 +1,10 @@
 package models
 
-class Submission[format](_id: Int, _author: User, _date: String, _content: format) {
+class Submission[format](
+    _id: Int,
+    _author: User,
+    _date: String,
+    _content: format) {
   val id = _id
   val author = _author
   val date = _date
