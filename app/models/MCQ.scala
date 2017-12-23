@@ -1,3 +1,5 @@
+package models
+
 case class MCQ(questions: Seq[Question]) {
   def add(question: Question) = MCQ(questions :+ question)
 

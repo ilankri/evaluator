@@ -1,3 +1,5 @@
+package models
+
 class Submission[format](_id: Int, _author: User, _date: String, _content: format) {
   val id = _id
   val author = _author
@@ -8,4 +10,3 @@ class Submission[format](_id: Int, _author: User, _date: String, _content: forma
   def get_date(): String = { return date }
   def get_content(): format = { return content }
 }
-

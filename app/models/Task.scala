@@ -1,3 +1,5 @@
+package models
+
 import java.text.SimpleDateFormat
 
 abstract class Task[format, worker](_Deadline: SimpleDateFormat, _workers: List[worker], _solution: format) {
