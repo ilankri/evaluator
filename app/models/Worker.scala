@@ -1,21 +1,16 @@
 package models
 
-class Worker(
-    id: Int,
-    name: String,
-    email: String,
-    pswd: String)
-  extends User(id, name, email, pswd) {
+trait Worker extends User {
+  private var tasks = Set.empty[Any]
 
-  def register(task: String): Unit = {
-    taskWorker = task :: taskWorker;
-    tasks = tasks ::: taskWorker;
-    println("Tu t'es inscrit au cours de " + task + ".\n Voici la nouvelle liste des tâches: ");
-    var taskList = tasks.foreach { println }
-  }
+  private var deliverables = Set.empty[Any]
 
-  def unregister(task: String): Unit = {
+  def register[ContentFmt, SolutionFmt](task: Task[ContentFmt, SolutionFmt]) =
+    tasks += task
 
-  }
+  def unregister[ContentFmt, SolutionFmt](task: Task[ContentFmt, SolutionFmt]) =
+    tasks -= task
 
+  def submit[Fmt, TaskFmt](deliverable: Deliverable[Fmt, TaskFmt]) =
+    deliverables += deliverable
 }

@@ -1,8 +1,15 @@
 package models
 
-abstract class Deliverable[format, Note](
-    _grade: Note,
-    _answeredQuestion: Task[format, Note]) {
-  val grade = _grade
-  val answeredQuestion = _answeredQuestion
+class Deliverable[Fmt, TaskFmt](
+    id: Long,
+    author: User,
+    date: java.time.LocalDateTime,
+    content: Fmt,
+    task: Task[TaskFmt, Fmt])
+  extends Submission(id, author, date, content) {
+  private var _evaluation: Option[Int] = None
+
+  def evaluation: Option[Int] = _evaluation
+
+  def evaluation_=(evaluation: Int) = _evaluation = Some(evaluation)
 }
