@@ -3,7 +3,7 @@ import models._
 object Main {
   def main(args: Array[String]): Unit = {
 
-    val user1 = new Worker(1, "user1", "user1@test.fr", "mdp123");
+    val user1 = new Worker(1, "user1", "user1@test.fr", "mdp123"); //instanciation du trait worker peut causer des erreurs de compilation
     //user.getTask();
     user1.register("nvx cours");
     user1.register("un deuxième nvx cours");
