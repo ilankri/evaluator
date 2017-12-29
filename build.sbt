@@ -18,6 +18,7 @@ libraryDependencies +=
 scalariformPreferences := scalariformPreferences.value
   .setPreference(DoubleIndentConstructorArguments, true)
   .setPreference(PlaceScaladocAsterisksBeneathSecondAsterisk, true)
+  .setPreference(DanglingCloseParenthesis, Preserve)
 
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "group3.controllers._"
