@@ -2,20 +2,24 @@ package util
 
 import java.util.concurrent.atomic.AtomicReference
 
-private[util] class SynchronizedSet[A](_set: Set[A]) {
-  private[this] val set = new AtomicReference(_set)
+private[util] class SynchronizedSet[A](_elems: Set[A])
+  extends collection.generic.Growable[A]
+  with collection.generic.Shrinkable[A] {
+  private[this] val elems = new AtomicReference(_elems)
 
   def +=(elem: A) = {
-    set.updateAndGet(_ + elem)
+    elems.updateAndGet(_ + elem)
     this
   }
 
   def -=(elem: A) = {
-    set.updateAndGet(_ - elem)
+    elems.updateAndGet(_ - elem)
     this
   }
 
-  def toSet = set.get()
+  def toSet = elems.get()
+
+  def clear() = elems.set(Set.empty)
 }
 
 object SynchronizedSet {
