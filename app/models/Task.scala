@@ -8,9 +8,9 @@ class Task[ContentFmt, SolutionFmt](
     solution: Option[SolutionFmt],
     deadline: Option[java.time.LocalDateTime])
   extends Submission(id, author, date, content) {
-  private var workers = Set.empty[Worker]
+  private[this] val workers = util.SynchronizedSet.empty[Worker]
 
-  def addWorker(worker: Worker) = workers += worker
+  def addWorker(worker: Worker): Unit = workers += worker
 
-  def deleteWorker(worker: Worker) = workers -= worker
+  def deleteWorker(worker: Worker): Unit = workers -= worker
 }

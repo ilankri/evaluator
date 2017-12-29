@@ -1,5 +1,7 @@
 package models
 
+import java.util.concurrent.atomic.AtomicReference
+
 class Deliverable[Fmt, TaskFmt](
     id: Long,
     author: User,
@@ -7,9 +9,9 @@ class Deliverable[Fmt, TaskFmt](
     content: Fmt,
     task: Task[TaskFmt, Fmt])
   extends Submission(id, author, date, content) {
-  private var _evaluation: Option[Int] = None
+  private[this] val _evaluation = new AtomicReference[Option[Int]](None)
 
-  def evaluation: Option[Int] = _evaluation
+  def evaluation: Option[Int] = _evaluation.get()
 
-  def evaluation_=(evaluation: Int) = _evaluation = Some(evaluation)
+  def evaluation_=(evaluation: Int) = _evaluation.set(Some(evaluation))
 }
