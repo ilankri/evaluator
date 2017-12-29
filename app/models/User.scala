@@ -1,3 +1,6 @@
 package models
 
-abstract class User(id: Long, name: String, email: String, password: String)
+abstract class User(_id: Long, name: String, email: String, password: String)
+  extends util.Identifiable {
+  override val id = _id
+}
