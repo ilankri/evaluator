@@ -1,23 +1,27 @@
 package db
 
-trait Db[Resource <: util.Identifiable] extends util.Crud[Resource] {
-  import collection.concurrent._
+import models._
 
-  private[this] val db: Map[Long, Resource] = TrieMap.empty
-
-  override def create(resource: Resource) = db += (resource.id -> resource)
-
-  override def read(id: Long) = db get id
-
-  override def update(resource: Resource) = ???
-
-  override def delete(id: Long) = db -= id
-
-  def readAll: Traversable[Resource] = db.values
+abstract class Db {
+  val users = Table.empty[User]
+  val submissions = Table.empty[Submission[Any]]
 }
 
-object Db {
-  object Users extends Db[models.User]
+object DefaultDb extends Db
 
-  object Submissions extends Db[models.Submission[Any]]
+object MockDb extends Db {
+  private def students(n: Int) =
+    (1 to n) map (i =>
+      User(s"student$i", s"student$i@mock.com", s"password$i", User.Student)
+    )
+
+  private def instructors(n: Int) =
+    (1 to n) map (i =>
+      User(s"instructor$i", s"instructor$i@mock.com", s"password$i",
+        User.Instructor)
+    )
+
+  override val users = Table(instructors(10) ++ students(10): _*)
+
+  override val submissions = Table.empty[Submission[Any]]
 }
