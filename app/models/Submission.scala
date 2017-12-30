@@ -7,4 +7,9 @@ abstract class Submission[+Fmt](
     content: Fmt)
   extends util.Identifiable {
   override val id = _id
+
+  override def toString =
+    s"Submission(id = $id, author = $author, date = $date, content = $content)"
 }
+
+object Submission extends util.IdGenerator

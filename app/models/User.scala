@@ -1,5 +1,4 @@
 package models
-import java.util.concurrent.atomic.AtomicLong
 
 abstract class User(
     override val id: Long,
@@ -8,18 +7,18 @@ abstract class User(
     password: String)
   extends util.Identifiable {
   def checkPassword(password: String) = password == this.password
+
+  override def toString = s"User(id = $id, name = $name, email = $email)"
 }
 
-object User {
-  private val nextId = new AtomicLong(1)
-
+object User extends util.IdGenerator {
   sealed abstract class Role
   case object Student extends Role
   case object Instructor extends Role
 
   def apply(name: String, email: String, password: String,
     role: Role): User = {
-    val id = nextId.getAndIncrement()
+    val id = nextId()
 
     role match {
       case Student => new Student(id, name, email, password)
