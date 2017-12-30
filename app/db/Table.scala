@@ -1,6 +1,7 @@
 package db
 
-class Table[Resource <: util.Identifiable] extends util.Crud[Resource] {
+private[db] class Table[Resource <: util.Identifiable]
+  extends util.Crud[Resource] {
   import collection.concurrent._
 
   private[this] val tbl: Map[Long, Resource] = TrieMap.empty
@@ -16,7 +17,7 @@ class Table[Resource <: util.Identifiable] extends util.Crud[Resource] {
   def readAll: Traversable[Resource] = tbl.values
 }
 
-object Table {
+private[db] object Table {
   def apply[A <: util.Identifiable](resources: A*) = {
     val tbl = new Table[A]
 
