@@ -1,6 +1,6 @@
 package models
 
-class Task[ContentFmt, SolutionFmt](
+class Task[+ContentFmt, +SolutionFmt](
     id: Long,
     author: User,
     date: java.time.LocalDateTime,

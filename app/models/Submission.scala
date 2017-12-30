@@ -1,6 +1,6 @@
 package models
 
-abstract class Submission[Fmt](
+abstract class Submission[+Fmt](
     _id: Long,
     author: User,
     date: java.time.LocalDateTime,

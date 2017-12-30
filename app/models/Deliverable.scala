@@ -2,7 +2,7 @@ package models
 
 import java.util.concurrent.atomic.AtomicReference
 
-class Deliverable[Fmt, TaskFmt](
+class Deliverable[+Fmt, +TaskFmt](
     id: Long,
     author: User,
     date: java.time.LocalDateTime,
