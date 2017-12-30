@@ -1,14 +1,12 @@
 package models
 
 trait Evaluator extends User {
-  private[this] val tasks = util.SynchronizedSet.empty[Any]
+  private[this] val _tasks = util.SynchronizedSet.empty[Task[Any, Any]]
 
-  def submit[ContentFmt, SolutionFmt](
-    task: Task[ContentFmt, SolutionFmt]): Unit =
-    tasks += task
+  def submit(task: Task[Any, Any]): Unit = _tasks += task
 
-  def evaluate[Fmt, TaskFmt](
-    deliverable: Deliverable[Fmt, TaskFmt],
-    evaluation: Int) =
+  def evaluate(deliverable: Deliverable[Any, Any], evaluation: Int) =
     deliverable.evaluation = evaluation
+
+  def submittedTasks = _tasks.toSet
 }
