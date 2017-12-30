@@ -8,4 +8,12 @@ class Users(cc: ControllerComponents, db: Db) extends AbstractController(cc) {
     db.users.read(id) map (user =>
       Action { implicit request: Request[AnyContent] => Ok(user.toString) }
     ) getOrElse TODO
+
+  def create = TODO
+
+  def register(userId: Long, taskId: Long) = TODO
+
+  def unregister(userId: Long, taskId: Long) = TODO
+
+  def delete(id: Long) = TODO
 }
