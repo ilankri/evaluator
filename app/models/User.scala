@@ -1,7 +1,7 @@
 package models
 import java.util.concurrent.atomic.AtomicLong
 
-private[models] abstract class User(
+abstract class User(
     override val id: Long,
     val name: String,
     val email: String,
