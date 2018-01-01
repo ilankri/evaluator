@@ -3,13 +3,13 @@ package db
 import models._
 
 abstract class Db(
-    val users: Table[User],
+    val users: CredentialTable[User],
     val submissions: Table[Submission[Any]])
 
-object DefaultDb extends Db(Table.empty, Table.empty)
+object DefaultDb extends Db(CredentialTable.empty, Table.empty)
 
 private[db] class MockDb(
-    users: Table[User],
+    users: CredentialTable[User],
     submissions: Table[Submission[Any]])
   extends Db(users, submissions)
 
@@ -31,7 +31,7 @@ object MockDb {
 
   def apply(nbInstructors: Int, nbStudents: Int) =
     new MockDb(
-      Table(instructors(nbStudents) ++ students(nbStudents): _*),
+      CredentialTable(instructors(nbStudents) ++ students(nbStudents): _*),
       Table.empty
     )
 }
