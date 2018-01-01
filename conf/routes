@@ -8,7 +8,10 @@ GET     /			controllers.HomeController.signin
 
 GET     /signup.html		controllers.HomeController.signup
 
-GET     /form_register.html		controllers.HomeController.form_register
+
+GET     /home.html		controllers.HomeController.home
+
+
 
 # Show the home page of the user with the given id.
 GET     /users/:id		controllers.Users.index(id: Long)

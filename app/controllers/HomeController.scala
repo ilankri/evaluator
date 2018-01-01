@@ -23,8 +23,8 @@ class HomeController(cc: ControllerComponents) extends AbstractController(cc) {
     Ok(views.html.signup())
   }
 
-  def form_register = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.form_register())
+  def home = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.home())
   }
 
 }
