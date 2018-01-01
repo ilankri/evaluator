@@ -27,4 +27,8 @@ class HomeController(cc: ControllerComponents) extends AbstractController(cc) {
     Ok(views.html.home())
   }
 
+  def cour1 = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.cour1())
+  }
+
 }

@@ -11,6 +11,8 @@ GET     /signup.html		controllers.HomeController.signup
 
 GET     /home.html		controllers.HomeController.home
 
+GET    /cour1.html     controllers.HomeController.cour1
+
 
 
 # Show the home page of the user with the given id.
