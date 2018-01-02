@@ -1,20 +1,15 @@
-@()
+@(signinForm: Form[SigninForm.Data], invalidCredentials: Boolean)(implicit request: MessagesRequestHeader)
 
 @main("Signin") {
   <div class="container-fluid">
-    <form class="form-signin">
+    @helper.form(action = routes.HomeController.signin, 'class -> "form-signin") {
       <h2 class="form-signin-heading">Sign in</h2>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div>
+      @if(invalidCredentials) { Invalid credentials, try again. }
+      @helper.CSRF.formField
+      @helper.inputText(SigninForm.form("Username"), 'class -> "form-control", 'required -> "", 'autofocus -> "")
+      @helper.inputPassword(SigninForm.form("Password"), 'class -> "form-control", 'required -> "")
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       <a href="signup.html">Don't you have an account yet ? Signup</a>
-    </form>
+    }
   </div>
 }

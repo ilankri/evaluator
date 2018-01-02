@@ -18,7 +18,10 @@ class HomeControllerSpec extends PlaySpec with OneAppPerSuiteWithComponents {
   "HomeController GET" should {
 
     "render the index page from a new instance of controller" in {
-      val controller = new HomeController(stubControllerComponents())
+      val controller = new HomeController(
+        components.messagesAction,
+        stubControllerComponents(),
+        components.database)
       val home = controller.signin().apply(FakeRequest(GET, "/"))
 
       status(home) mustBe OK

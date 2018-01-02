@@ -1,16 +1,23 @@
 package conf
 
-import play.api.ApplicationLoader.Context
+import play.api.{ controllers => _, _ }
+import play.api.mvc._
+
 import router.Routes
 
-class Components(context: Context)
-  extends play.api.BuiltInComponentsFromContext(context)
+class Components(context: ApplicationLoader.Context)
+  extends BuiltInComponentsFromContext(context)
   with play.filters.HttpFiltersComponents
   with controllers.AssetsComponents {
   val database = db.MockDb(10, 10)
 
+  lazy val messagesAction =
+    new DefaultMessagesActionBuilderImpl(
+      new BodyParsers.Default(playBodyParsers), new i18n.DefaultMessagesApi)
+
   lazy val homeController =
-    new controllers.HomeController(controllerComponents)
+    new controllers.HomeController(messagesAction, controllerComponents,
+      database)
 
   lazy val userController =
     new controllers.Users(controllerComponents, database)

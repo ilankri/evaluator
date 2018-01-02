@@ -3,17 +3,16 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-# The home page is the "sign in" one.
-GET     /			controllers.HomeController.signin
+# The home page of the application is the "sign in" one.
+GET     /			controllers.HomeController.index
 
 GET     /signup.html		controllers.HomeController.signup
-
 
 GET     /home.html		controllers.HomeController.home
 
 GET    /cour1.html     controllers.HomeController.cour1
 
-
+POST    /signin                 controllers.HomeController.signin
 
 # Show the home page of the user with the given id.
 GET     /users/:id		controllers.Users.index(id: Long)
