@@ -4,14 +4,14 @@ import models._
 
 abstract class Db(
     val users: CredentialTable[User],
-    val submissions: Table[Submission[Any]])
+    val tasks: Table[Task[Any, Any]])
 
 object DefaultDb extends Db(CredentialTable.empty, Table.empty)
 
 private[db] class MockDb(
     users: CredentialTable[User],
-    submissions: Table[Submission[Any]])
-  extends Db(users, submissions)
+    tasks: Table[Task[Any, Any]])
+  extends Db(users, tasks)
 
 object MockDb {
   private[this] def instructors(nbInstructors: Int) = {
