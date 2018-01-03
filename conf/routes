@@ -7,26 +7,34 @@
 # not signed in, otherwise it is the user's home page.
 GET     /			controllers.HomeController.index
 
-GET     /signup.html		controllers.HomeController.signupPage
+GET     /signup			controllers.HomeController.signupPage
 
 POST	/signup			controllers.HomeController.signup
 
-GET     /signin.html		controllers.HomeController.signinPage
+GET     /signin			controllers.HomeController.signinPage
 
 POST    /signin                 controllers.HomeController.signin
 
-# GET     /home.html		controllers.HomeController.home
-
-# GET    /cour1.html     controllers.HomeController.cour1
+POST    /signout                controllers.HomeController.signout
 
 # Show the home page of the signed-in user.
 GET     /home                   controllers.Users.index
 
+# Display a page for creating a new task.
+GET	/tasks/create		controllers.Tasks.createPage
+
+# Submit a task.
+POST	/tasks			controllers.Tasks.create
+
+# Display a task, more precisely display a page for creating a new
+# deliverable for the given task.
+GET	/tasks/:id		controllers.Tasks.read(id: Long)
+
 # Display all the existing tasks.
 GET	/tasks			controllers.Tasks.readAll
 
-# Display a task.
-GET	/tasks/:id		controllers.Tasks.read(id: Long)
+# Get all the deliverables for a given task.
+GET	/tasks/:id/deliverables	controllers.Tasks.readAllDeliverables(id: Long)
 
 # Register a user for a task.
 POST	/tasks/:id/register	controllers.Tasks.register(id: Long)
@@ -34,17 +42,11 @@ POST	/tasks/:id/register	controllers.Tasks.register(id: Long)
 # Unregister a user from a task.
 DELETE	/tasks/:id/unregister	controllers.Tasks.unregister(id: Long)
 
-# Submit a task.
-POST	/tasks			controllers.Tasks.create
-
-# Delete a task.
-DELETE	/tasks/:id		controllers.Tasks.delete(id: Long)
-
 # Submit a deliverable.
 POST	/tasks/:id/deliver	controllers.Tasks.deliver(id: Long)
 
-# Get all the deliverables for a given task.
-GET	/tasks/:id/deliverables	controllers.Tasks.readAllDeliverables(id: Long)
+# Delete a task.
+DELETE	/tasks/:id		controllers.Tasks.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path.
 GET     /assets/*file           controllers.Assets.versioned(path = "/public", file: Asset)

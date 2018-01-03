@@ -20,6 +20,18 @@ class HomeController(cc: MessagesControllerComponents, db: Db)
     */
   def index = Auth { Action { Redirect(routes.Users.index) } }
 
+  def signupPage = Action { Ok(views.html.signup()) }
+
+  def signup = TODO
+
+  def signinPage = GenericAuth(
+    Action { Redirect(routes.Users.index) },
+    Action { implicit request =>
+      Ok(views.html.signin(SigninForm.form, false))
+    },
+    userIdKey
+  )
+
   def signin = Action { implicit request =>
     SigninForm.form.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.signin(formWithErrors, false)),
@@ -35,23 +47,5 @@ class HomeController(cc: MessagesControllerComponents, db: Db)
     )
   }
 
-  def signupPage = Action { Ok(views.html.signup()) }
-
-  def signup = TODO
-
-  def signinPage = GenericAuth(
-    Action { Redirect(routes.Users.index) },
-    Action { implicit request =>
-      Ok(views.html.signin(SigninForm.form, false))
-    },
-    userIdKey
-  )
-
-  /* def home = Action { implicit request: Request[AnyContent] => */
-  /*   Ok(views.html.home()) */
-  /* } */
-
-  /* def cour1 = Action { implicit request: Request[AnyContent] => */
-  /*   Ok(views.html.cour1()) */
-  /* } */
+  def signout = Auth { TODO }
 }
