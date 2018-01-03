@@ -10,8 +10,9 @@ trait Worker extends User {
 
   def unregister(task: Task[Any, Any]): Unit = _tasks -= task
 
-  def submitDeliverable[Fmt](content: Fmt, task: Task[Any, Fmt]) = {
-    val deliverable = new Deliverable(this, content, task)
+  def submitDeliverable[Fmt](description: String, content: Fmt,
+    task: Task[Any, Fmt]) = {
+    val deliverable = new Deliverable(this, description, content, task)
     task.receive(deliverable)
     deliverable
   }

@@ -8,8 +8,6 @@ abstract class User(
   extends util.Identifiable
   with util.Authenticatable {
   override def checkPassword(password: String) = password == this.password
-
-  override def toString = s"User(id = $id, name = $name, email = $email)"
 }
 
 object User extends util.IdGenerator {

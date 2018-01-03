@@ -1,15 +1,11 @@
 package models
 
-abstract class Submission[+Fmt](
-    _id: Long,
-    author: User,
-    date: java.time.LocalDateTime,
-    content: Fmt)
-  extends util.Identifiable {
-  override val id = _id
-
-  override def toString =
-    s"Submission(id = $id, author = $author, date = $date, content = $content)"
-}
+abstract class Submission[Fmt](
+    override val id: Long,
+    val date: java.time.LocalDateTime,
+    val author: User,
+    val description: String,
+    val content: Fmt)
+  extends util.Identifiable
 
 object Submission extends util.IdGenerator
