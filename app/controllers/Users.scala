@@ -3,17 +3,12 @@ package controllers
 import play.api.mvc._
 import db._
 
-class Users(cc: ControllerComponents, db: Db) extends AbstractController(cc) {
-  def index(id: Long) =
-    db.users.read(id) map (user =>
-      Action { implicit request: Request[AnyContent] => Ok(user.toString) }
-    ) getOrElse TODO
-
-  def create = TODO
-
-  def register(userId: Long, taskId: Long) = TODO
-
-  def unregister(userId: Long, taskId: Long) = TODO
-
-  def delete(id: Long) = TODO
+class Users(cc: MessagesControllerComponents, db: Db)
+  extends AuthMessagesAbstractController(cc) {
+  def index = Auth {
+    Action { request =>
+      db.users.read(request.attrs(userIdKey)) map (user =>
+        Ok(views.html.home(user))) getOrElse NotImplemented
+    }
+  }
 }

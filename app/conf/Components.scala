@@ -11,21 +11,30 @@ class Components(context: ApplicationLoader.Context)
   with controllers.AssetsComponents {
   val database = db.MockDb(10, 10)
 
-  lazy val messagesAction =
+  val messagesAction =
     new DefaultMessagesActionBuilderImpl(
-      new BodyParsers.Default(playBodyParsers), new i18n.DefaultMessagesApi)
+      new BodyParsers.Default(playBodyParsers), messagesApi)
+
+  override lazy val controllerComponents =
+    new DefaultMessagesControllerComponents(
+      messagesAction,
+      Action,
+      playBodyParsers,
+      messagesApi,
+      langs,
+      fileMimeTypes,
+      executionContext)
 
   lazy val homeController =
-    new controllers.HomeController(messagesAction, controllerComponents,
-      database)
+    new controllers.HomeController(controllerComponents, database)
 
   lazy val userController =
     new controllers.Users(controllerComponents, database)
 
-  lazy val submissionController =
-    new controllers.Submissions(controllerComponents, database)
+  lazy val taskController =
+    new controllers.Tasks(controllerComponents, database)
 
   lazy val router =
     new Routes(httpErrorHandler, homeController, userController,
-      submissionController, assets)
+      taskController, assets)
 }
