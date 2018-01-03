@@ -5,15 +5,19 @@ import concurrent._
 import play.api.libs.typedmap.TypedKey
 import play.api.mvc._
 
+import db._
+
 case class GenericAuth[A](
     action: Action[A],
     onFailure: Action[A],
-    userIdKey: TypedKey[Long])
+    userKey: TypedKey[models.User],
+    db: Db)
   extends Action[A] {
   override def apply(request: Request[A]): Future[Result] = {
-    request.session.get(userIdKey.displayName getOrElse "").fold(
-      onFailure(request))(id =>
-        action(request.addAttr(userIdKey, id.toLong)))
+    request.session.get("id").fold(onFailure(request))(id =>
+      db.users.read(id.toLong).fold(onFailure(request))(user =>
+        action(request.addAttr(userKey, user)))
+    )
   }
 
   override def parser = action.parser
@@ -21,9 +25,11 @@ case class GenericAuth[A](
   override def executionContext = action.executionContext
 }
 
-abstract class AuthMessagesAbstractController(cc: MessagesControllerComponents)
+abstract class AuthMessagesAbstractController(
+    cc: MessagesControllerComponents,
+    db: Db)
   extends MessagesAbstractController(cc) {
-  val userIdKey = TypedKey[Long]("userId")
+  val userKey = TypedKey[models.User]("user")
 
   class Auth(action: Action[AnyContent])
     extends GenericAuth[AnyContent](
@@ -31,7 +37,8 @@ abstract class AuthMessagesAbstractController(cc: MessagesControllerComponents)
       Action { implicit request: MessagesRequest[AnyContent] =>
         Redirect(routes.HomeController.signinPage)
       },
-      userIdKey
+      userKey,
+      db
     )
 
   object Auth {

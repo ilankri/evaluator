@@ -9,7 +9,7 @@ import db._
   * application's home page.
   */
 class HomeController(cc: MessagesControllerComponents, db: Db)
-  extends AuthMessagesAbstractController(cc) {
+  extends AuthMessagesAbstractController(cc, db) {
 
   /**
     * Create an Action to render an HTML page.
@@ -29,7 +29,8 @@ class HomeController(cc: MessagesControllerComponents, db: Db)
     Action { implicit request =>
       Ok(views.html.signin(SigninForm.form, false))
     },
-    userIdKey
+    userKey,
+    db
   )
 
   def signin = Action { implicit request =>
@@ -38,10 +39,7 @@ class HomeController(cc: MessagesControllerComponents, db: Db)
       signinData => {
         val user = db.users.read(signinData.username, signinData.password)
         user.fold(BadRequest(views.html.signin(SigninForm.form, true)))(user =>
-          Redirect(routes.Users.index)
-            .withSession(
-              userIdKey.displayName.getOrElse("") -> user.id.toString
-            )
+          Redirect(routes.Users.index).withSession("id" -> user.id.toString)
         )
       }
     )

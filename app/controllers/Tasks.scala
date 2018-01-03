@@ -4,7 +4,7 @@ import play.api.mvc._
 import db._
 
 class Tasks(cc: MessagesControllerComponents, db: Db)
-  extends AuthMessagesAbstractController(cc) {
+  extends AuthMessagesAbstractController(cc, db) {
   def createPage = Auth { TODO }
 
   def create = Auth { TODO }
