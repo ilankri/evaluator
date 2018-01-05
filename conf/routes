@@ -15,10 +15,10 @@ GET     /signin			controllers.HomeController.signinPage
 
 POST    /signin                 controllers.HomeController.signin
 
-POST    /signout                controllers.HomeController.signout
+GET	/signout                controllers.Users.signout
 
 # Show the home page of the signed-in user.
-GET     /home                   controllers.Users.index
+GET     /home                   controllers.Users.home
 
 # Display a page for creating a new task.
 GET	/tasks/create		controllers.Tasks.createPage

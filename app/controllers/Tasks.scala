@@ -1,25 +1,21 @@
 package controllers
 
-import play.api.mvc._
-import db._
+class Tasks(cc: UserControllerComponents) extends UserAbstractController(cc) {
+  def createPage = TODO
 
-class Tasks(cc: MessagesControllerComponents, db: Db)
-  extends AuthMessagesAbstractController(cc, db) {
-  def createPage = Auth { TODO }
+  def create = TODO
 
-  def create = Auth { TODO }
+  def read(id: Long) = TODO
 
-  def read(id: Long) = Auth { TODO }
+  def readAll = TODO
 
-  def readAll = Auth { TODO }
+  def readAllDeliverables(id: Long) = TODO
 
-  def readAllDeliverables(id: Long) = Auth { TODO }
+  def register(id: Long) = TODO
 
-  def register(id: Long) = Auth { TODO }
+  def unregister(id: Long) = TODO
 
-  def unregister(id: Long) = Auth { TODO }
+  def deliver(id: Long) = TODO
 
-  def deliver(id: Long) = Auth { TODO }
-
-  def delete(id: Long) = Auth { TODO }
+  def delete(id: Long) = TODO
 }
