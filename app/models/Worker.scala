@@ -1,7 +1,7 @@
 package models
 
 trait Worker extends User {
-  private[this] val _tasks = util.SynchronizedSet.empty[Task[Any, Any]]
+  private[this] var _tasks = Set.empty[Task[Any, Any]]
 
   /* private[this] val _deliverables = */
   /*   util.SynchronizedSet.empty[Deliverable[Any, Any]] */

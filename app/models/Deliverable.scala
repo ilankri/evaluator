@@ -1,7 +1,6 @@
 package models
 
 import java.time.LocalDateTime
-import java.util.concurrent.atomic.AtomicReference
 
 class Deliverable[Fmt, TaskFmt](
     author: User,
@@ -10,11 +9,11 @@ class Deliverable[Fmt, TaskFmt](
     task: Task[TaskFmt, Fmt])
   extends Submission(Submission.nextId(), LocalDateTime.now(), author,
     description, content) {
-  private[this] val _evaluation = new AtomicReference[Option[(Int, Int)]](None)
+  private[this] var _evaluation: Option[(Int, Int)] = None
 
-  def evaluation: Option[(Int, Int)] = _evaluation.get()
+  def evaluation = _evaluation
 
-  def evaluation_=(evaluation: (Int, Int)) = _evaluation.set(Some(evaluation))
+  def evaluation_=(evaluation: (Int, Int)) = _evaluation = Some(evaluation)
 
   override def toString =
     s"Deliverable(id = $id, date = $date, author = $author" +

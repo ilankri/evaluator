@@ -12,8 +12,8 @@ class Task[ContentFmt, SolutionFmt](
     description, content) {
   /* private[this] val workers = util.SynchronizedSet.empty[Worker] */
 
-  private[this] val _deliverables =
-    util.SynchronizedSet.empty[Deliverable[SolutionFmt, ContentFmt]]
+  private[this] var _deliverables =
+    Set.empty[Deliverable[SolutionFmt, ContentFmt]]
 
   /* def addWorker(worker: Worker): Unit = workers += worker */
 
