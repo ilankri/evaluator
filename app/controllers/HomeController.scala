@@ -23,7 +23,9 @@ class HomeController(cc: UserControllerComponents)
   def signup = TODO
 
   def signinPage = Action { implicit request =>
-    Ok(views.html.signin(SigninForm.form, false))
+    request.session.get(cc.userIdKey).fold(
+      Ok(views.html.signin(SigninForm.form, false)))(_ =>
+        Redirect(routes.Users.home))
   }
 
   def signin = Action { implicit request =>
