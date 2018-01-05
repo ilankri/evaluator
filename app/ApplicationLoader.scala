@@ -26,7 +26,7 @@ class Components(context: ApplicationLoader.Context)
       langs,
       fileMimeTypes,
       executionContext,
-      db.MockDb(10, 10),
+      db.MockDb(10),
       "id")
 
   lazy val homeController = new controllers.HomeController(controllerComponents)

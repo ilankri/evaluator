@@ -14,7 +14,7 @@ private[db] class MockDb(
   extends Db(users, tasks)
 
 object MockDb {
-  private[this] def instructors(nbInstructors: Int) = {
+  private def instructors(nbInstructors: Int) = {
     def instructor(i: Int) =
       User(s"instructor$i", s"instructor$i@mock.com", s"password$i",
         User.Instructor)
@@ -22,16 +22,49 @@ object MockDb {
     for (i <- 1 to nbInstructors) yield instructor(i)
   }
 
-  private[this] def students(nbStudents: Int) = {
+  private def students(nbStudents: Int) = {
     def student(i: Int) =
       User(s"student$i", s"student$i@mock.com", s"password$i", User.Student)
 
     for (i <- 1 to nbStudents) yield student(i)
   }
 
-  def apply(nbInstructors: Int, nbStudents: Int) =
-    new MockDb(
-      CredentialTable(instructors(nbStudents) ++ students(nbStudents): _*),
-      Table.empty
+  private def mcq(i: Int) = {
+    import models.mcq._
+
+    Mcq(Seq(
+      Question(
+        s"$i = ?",
+        Seq(
+          Choice(s"$i", true),
+          Choice("-1", false)
+        )
+      ),
+      Question(
+        s"$i - $i = ?",
+        Seq(
+          Choice("0", true),
+          Choice("1", false),
+          Choice(s"$i - $i", true)
+        )
+      )
+    ))
+  }
+
+  private def tasks(nbTasks: Int, instructors: Seq[User]) = {
+    for (i <- 1 to nbTasks) yield new Task[Any, Any](
+      instructors(i),
+      s"Description $i",
+      mcq(i),
+      None
     )
+  }
+
+  def apply(n: Int) = {
+    val instrs = instructors(n)
+    new MockDb(
+      CredentialTable(instrs ++ students(n): _*),
+      Table(tasks(n, instrs): _*)
+    )
+  }
 }
