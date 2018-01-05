@@ -1,12 +1,16 @@
 package models.mcq
 
-case class Mcq(questions: Seq[Question]) extends models.CanCorrect[Solution] {
-  override def correct(solution: Solution) = {
-    val score =
-      questions.zip(solution.choices) count {
-        case (question, choices) => question.check(choices)
-      }
-    (score, questions.size)
+case class Mcq(questions: Seq[Question]) extends models.AutoCorrectable {
+  override def correct(solution: Any) = {
+    solution match {
+      case solution: Solution =>
+        val score =
+          questions.zip(solution.choices) count {
+            case (question, choices) => question.check(choices)
+          }
+        Some((score, questions.size))
+      case _ => None
+    }
   }
 }
 

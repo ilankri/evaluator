@@ -3,17 +3,17 @@ package models
 import java.time.LocalDateTime
 
 trait Evaluator extends User {
-  private[this] var _tasks = Set.empty[Task[Any, Any]]
+  private[this] var _tasks = Set.empty[Long]
 
-  def submitTask(description: String, content: Any,
-    solution: Option[Any] = None, deadline: Option[LocalDateTime] = None) = {
-    val task = new Task(this, description, content, solution, deadline)
-    _tasks += task
+  def submitTask[A](description: String, content: A,
+    deadline: Option[LocalDateTime] = None) = {
+    val task = new Task(this, description, content, deadline)
+    _tasks += task.id
     task
   }
 
-  def evaluate(deliverable: Deliverable[Any, Any], evaluation: (Int, Int)) =
+  def evaluate[A](deliverable: Deliverable[A], evaluation: (Int, Int)) =
     deliverable.evaluation = evaluation
 
-  def submittedTasks = _tasks.toSet
+  def submittedTasks = _tasks.toTraversable
 }

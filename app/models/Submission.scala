@@ -1,6 +1,6 @@
 package models
 
-abstract class Submission[Fmt](
+abstract class Submission[+Fmt](
     override val id: Long,
     val date: java.time.LocalDateTime,
     val author: User,

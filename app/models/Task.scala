@@ -2,37 +2,33 @@ package models
 
 import java.time.LocalDateTime
 
-class Task[ContentFmt, SolutionFmt](
+class Task[+Fmt](
     author: User,
     description: String,
-    content: ContentFmt,
-    correction: Option[SolutionFmt],
-    val deadline: Option[LocalDateTime])
+    content: Fmt,
+    val deadline: Option[LocalDateTime] = None)
   extends Submission(Submission.nextId(), LocalDateTime.now(), author,
     description, content) {
   /* private[this] val workers = util.SynchronizedSet.empty[Worker] */
 
-  private[this] var _deliverables =
-    Set.empty[Deliverable[SolutionFmt, ContentFmt]]
+  /* private[this] var _deliverables = Set.empty[Deliverable[DeliveryFmt, Fmt]] */
 
   /* def addWorker(worker: Worker): Unit = workers += worker */
 
   /* def deleteWorker(worker: Worker): Unit = workers -= worker */
 
-  private[this] def autocorrect(
-    deliverable: Deliverable[SolutionFmt, ContentFmt]) =
+  private[this] def autocorrect[A](deliverable: Deliverable[A]) =
     content match {
-      case content: CanCorrect[SolutionFmt] =>
-        Some(content.correct(deliverable.content))
+      case content: AutoCorrectable => content.correct(deliverable.content)
       case _ => None
     }
 
-  def receive(deliverable: Deliverable[SolutionFmt, ContentFmt]): Unit = {
+  def receive[A](deliverable: Deliverable[A]): Unit = {
     autocorrect(deliverable) foreach (deliverable.evaluation = _)
-    _deliverables += deliverable
+    /* _deliverables += deliverable */
   }
 
-  def deliverables = _deliverables.toSet
+  /* def deliverables = _deliverables.toSet */
 
   override def toString =
     s"Task(id = $id, date = $date, author = $author" +

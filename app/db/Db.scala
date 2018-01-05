@@ -4,13 +4,13 @@ import models._
 
 abstract class Db(
     val users: CredentialTable[User],
-    val tasks: Table[Task[Any, Any]])
+    val tasks: Table[Task[Any]])
 
 object DefaultDb extends Db(CredentialTable.empty, Table.empty)
 
 private[db] class MockDb(
     users: CredentialTable[User],
-    tasks: Table[Task[Any, Any]])
+    tasks: Table[Task[Any]])
   extends Db(users, tasks)
 
 object MockDb {
@@ -32,6 +32,7 @@ object MockDb {
   private def mcq(i: Int) = {
     import models.mcq._
 
+    assert(i >= 0)
     Mcq(Seq(
       Question(
         s"$i = ?",
@@ -52,12 +53,11 @@ object MockDb {
   }
 
   private def tasks(nbTasks: Int, instructors: Seq[User]) = {
-    for (i <- 1 to nbTasks) yield new Task[Any, Any](
-      instructors(i),
+    assert(instructors.size >= nbTasks)
+    for (i <- 1 to nbTasks) yield new Task(
+      instructors(i - 1),
       s"Description $i",
-      mcq(i),
-      None,
-      None
+      mcq(i)
     )
   }
 

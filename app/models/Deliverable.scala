@@ -2,11 +2,11 @@ package models
 
 import java.time.LocalDateTime
 
-class Deliverable[Fmt, TaskFmt](
+class Deliverable[+Fmt](
     author: User,
     description: String,
     content: Fmt,
-    task: Task[TaskFmt, Fmt])
+    task: Task[Any])
   extends Submission(Submission.nextId(), LocalDateTime.now(), author,
     description, content) {
   private[this] var _evaluation: Option[(Int, Int)] = None
