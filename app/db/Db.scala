@@ -59,7 +59,7 @@ object MockDb {
     }
 
     val evaluators = (for (user <- users) yield asEvalutor(user).repr).flatten
-    for (e <- evaluators) yield e.submitTask(s"Description $e.id", mcq(e.id))
+    for (e <- evaluators) yield e.submitTask(s"Description ${e.id}", mcq(e.id))
   }
 
   def apply(n: Int) = {

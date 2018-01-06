@@ -16,6 +16,6 @@ class Deliverable[+Fmt](
   def evaluation_=(evaluation: (Int, Int)) = _evaluation = Some(evaluation)
 
   override def toString =
-    s"Deliverable(id = $id, date = $date, author = $author" +
-      s"description = $description, content = $content)"
+    s"Deliverable(id = $id, date = $date, authorId = ${author.id}, " +
+      s"description = $description, content = $content, taskId = ${task.id})"
 }

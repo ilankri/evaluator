@@ -31,6 +31,6 @@ class Task[+Fmt](
   /* def deliverables = _deliverables.toSet */
 
   override def toString =
-    s"Task(id = $id, date = $date, author = $author" +
-      s"description = $description, content = $content)"
+    s"Task(id = $id, date = $date, authorId = ${author.id}, " +
+      s"description = $description, content = $content, deadline = $deadline)"
 }
