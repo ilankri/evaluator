@@ -29,7 +29,7 @@ object MockDb {
     for (i <- 1 to nbStudents) yield student(i)
   }
 
-  private def mcq(i: Int) = {
+  private def mcq(i: Long) = {
     import models.mcq._
 
     assert(i >= 0)
@@ -52,20 +52,21 @@ object MockDb {
     ))
   }
 
-  private def tasks(nbTasks: Int, instructors: Seq[User]) = {
-    assert(instructors.size >= nbTasks)
-    for (i <- 1 to nbTasks) yield new Task(
-      instructors(i - 1),
-      s"Description $i",
-      mcq(i)
-    )
+  private def tasks(users: Seq[User]) = {
+    def asEvalutor(user: User) = user match {
+      case evaluator: Evaluator => Some(evaluator)
+      case _ => None
+    }
+
+    val evaluators = (for (user <- users) yield asEvalutor(user).repr).flatten
+    for (e <- evaluators) yield e.submitTask(s"Description $e.id", mcq(e.id))
   }
 
   def apply(n: Int) = {
-    val instrs = instructors(n)
+    val users = instructors(n) ++ students(n)
     new MockDb(
-      CredentialTable(instrs ++ students(n): _*),
-      Table(tasks(n, instrs): _*)
+      CredentialTable(users: _*),
+      Table(tasks(users): _*)
     )
   }
 }
