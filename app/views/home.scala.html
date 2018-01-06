@@ -1,6 +1,6 @@
 @(user: User)
 
-@main("Home page", Some(navbar(user))) {
+@userMain("Home page", user) {
 
 <h1>@user.name</h1>
 
