@@ -15,6 +15,9 @@ GET     /signin			controllers.HomeController.signinPage
 
 POST    /signin                 controllers.HomeController.signin
 
+#show detail of cours2
+GET    /cour2.html     controllers.HomeController.cour2
+
 # Show the home page of the signed-in user.
 GET     /user/home              controllers.UserController.home
 
