@@ -15,38 +15,42 @@ GET     /signin			controllers.HomeController.signinPage
 
 POST    /signin                 controllers.HomeController.signin
 
-GET	/signout                controllers.Users.signout
-
 # Show the home page of the signed-in user.
-GET     /home                   controllers.Users.home
+GET     /user/home              controllers.UserController.home
+
+GET	/user/tasks		controllers.UserController.tasks
+
+GET	/user/ownedtasks	controllers.UserController.ownedTasks
+
+GET	/user/signout           controllers.UserController.signout
 
 # Display a page for creating a new task.
-GET	/tasks/create		controllers.Tasks.createPage
+GET	/tasks/create		controllers.TaskController.createPage
 
 # Submit a task.
-POST	/tasks			controllers.Tasks.create
+POST	/tasks			controllers.TaskController.create
 
 # Display a task, more precisely display a page for creating a new
 # deliverable for the given task.
-GET	/tasks/:id		controllers.Tasks.read(id: Long)
+GET	/tasks/:id		controllers.TaskController.read(id: Long)
 
 # Display all the existing tasks.
-GET	/tasks			controllers.Tasks.readAll
+GET	/tasks			controllers.TaskController.readAll
 
 # Get all the deliverables for a given task.
-GET	/tasks/:id/deliverables	controllers.Tasks.readAllDeliverables(id: Long)
+GET	/tasks/:id/deliverables	controllers.TaskController.readAllDeliverables(id: Long)
 
 # Register a user for a task.
-POST	/tasks/:id/register	controllers.Tasks.register(id: Long)
+POST	/tasks/:id/register	controllers.TaskController.register(id: Long)
 
 # Unregister a user from a task.
-DELETE	/tasks/:id/unregister	controllers.Tasks.unregister(id: Long)
+DELETE	/tasks/:id/unregister	controllers.TaskController.unregister(id: Long)
 
 # Submit a deliverable.
-POST	/tasks/:id/deliver	controllers.Tasks.deliver(id: Long)
+POST	/tasks/:id/deliver	controllers.TaskController.deliver(id: Long)
 
 # Delete a task.
-DELETE	/tasks/:id		controllers.Tasks.delete(id: Long)
+DELETE	/tasks/:id		controllers.TaskController.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path.
 GET     /assets/*file           controllers.Assets.versioned(path = "/public", file: Asset)

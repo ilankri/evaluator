@@ -1,0 +1,7 @@
+@(title: String, tasks: Traversable[Task[Any]])(implicit request: UserRequest[_])
+
+@userMain(title, request.user) {
+  @for(task <- tasks) {
+    @task<br><br>
+  }
+}

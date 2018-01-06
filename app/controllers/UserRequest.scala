@@ -10,17 +10,19 @@ import db._
 class UserRequest[A](
     request: MessagesRequest[A],
     val user: models.User)
-  extends WrappedRequest[A](request)
+  extends WrappedRequest[A](request) {
+  def unwrap = request
+}
 
 class WorkerRequest[A](
-    request: UserRequest[A],
-    val worker: models.Worker)
-  extends WrappedRequest[A](request)
+    request: MessagesRequest[A],
+    override val user: models.Worker)
+  extends UserRequest[A](request, user)
 
 class EvaluatorRequest[A](
-    request: UserRequest[A],
-    val evaluator: models.Evaluator)
-  extends WrappedRequest[A](request)
+    request: MessagesRequest[A],
+    override val user: models.Evaluator)
+  extends UserRequest[A](request, user)
 
 class UserAction(
     db: Db,
@@ -43,7 +45,8 @@ class WorkerAction(
   extends ActionRefiner[UserRequest, WorkerRequest] {
   override def refine[A](request: UserRequest[A]) = Future.successful {
     request.user match {
-      case worker: models.Worker => Right(new WorkerRequest(request, worker))
+      case worker: models.Worker =>
+        Right(new WorkerRequest(request.unwrap, worker))
       case _ => Left(resultOnUnauthorized)
     }
   }
@@ -57,7 +60,7 @@ class EvaluatorAction(
   override def refine[A](request: UserRequest[A]) = Future.successful {
     request.user match {
       case evaluator: models.Evaluator =>
-        Right(new EvaluatorRequest(request, evaluator))
+        Right(new EvaluatorRequest(request.unwrap, evaluator))
       case _ => Left(resultOnUnauthorized)
     }
   }

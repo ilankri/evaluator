@@ -1,13 +1,16 @@
 package controllers
 
-class Tasks(cc: UserControllerComponents) extends UserAbstractController(cc) {
+class TaskController(cc: UserControllerComponents)
+  extends UserAbstractController(cc) {
   def createPage = TODO
 
   def create = TODO
 
   def read(id: Long) = TODO
 
-  def readAll = TODO
+  def readAll = userAction { implicit request =>
+    Ok(views.html.tasks("All tasks", cc.db.tasks.readAll))
+  }
 
   def readAllDeliverables(id: Long) = TODO
 

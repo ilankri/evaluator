@@ -31,11 +31,11 @@ class Components(context: ApplicationLoader.Context)
 
   lazy val homeController = new controllers.HomeController(controllerComponents)
 
-  lazy val userController = new controllers.Users(controllerComponents)
+  lazy val userController = new controllers.UserController(controllerComponents)
 
-  lazy val taskController = new controllers.Tasks(controllerComponents)
+  lazy val taskController = new controllers.TaskController(controllerComponents)
 
   lazy val router =
-    new Routes(httpErrorHandler, homeController, userController,
-      taskController, assets)
+    new Routes(httpErrorHandler, homeController, userController, taskController,
+      assets)
 }
