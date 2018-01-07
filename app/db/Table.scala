@@ -16,7 +16,7 @@ private[db] class Table[Resource <: Identifiable](
 
   override def read(id: Long) = tbl get id
 
-  override def update(resource: Resource) = ???
+  override def update(resource: Resource) = tbl update (resource.id, resource)
 
   override def delete(id: Long) = tbl -= id
 
