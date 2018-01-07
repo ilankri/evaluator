@@ -1,14 +1,20 @@
 package models
 
 trait Worker extends User {
-  private[this] var _tasks = Set.empty[Long]
+  private[this] val _tasks = util.SynchronizedSet.empty[Task[Any]]
 
   /* private[this] val _deliverables = */
   /*   util.SynchronizedSet.empty[Deliverable[Any, Any]] */
 
-  def register[A](task: Task[A]): Unit = _tasks += task.id
+  def register[A](task: Task[A]) = {
+    task register this
+    _tasks += task
+  }
 
-  def unregister[A](task: Task[A]): Unit = _tasks -= task.id
+  def unregister[A](task: Task[A]) = {
+    task unregister this
+    _tasks -= task
+  }
 
   def submitDeliverable[A, B](description: String, content: B,
     task: Task[A]) = {

@@ -9,13 +9,13 @@ class Task[+Fmt](
     val deadline: Option[LocalDateTime] = None)
   extends Submission(Submission.nextId(), LocalDateTime.now(), author,
     description, content) {
-  /* private[this] val workers = util.SynchronizedSet.empty[Worker] */
+  private[this] val workers = util.SynchronizedSet.empty[Worker]
 
   /* private[this] var _deliverables = Set.empty[Deliverable[DeliveryFmt, Fmt]] */
 
-  /* def addWorker(worker: Worker): Unit = workers += worker */
+  def register(worker: Worker) = workers += worker
 
-  /* def deleteWorker(worker: Worker): Unit = workers -= worker */
+  def unregister(worker: Worker) = workers -= worker
 
   private[this] def autocorrect[A](deliverable: Deliverable[A]) =
     content match {

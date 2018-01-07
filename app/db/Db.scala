@@ -3,8 +3,28 @@ package db
 import models._
 
 abstract class Db(
-    val users: CredentialTable[User],
-    val tasks: Table[Task[Any]])
+    users: CredentialTable[User],
+    tasks: Table[Task[Any]]) {
+  def create(user: User) = users.create(user)
+
+  def create[A](task: Task[A]) = tasks.create(task)
+
+  def readUser(id: Long) = users.read(id)
+
+  def readUser(name: String, password: String) = users.read(name, password)
+
+  def readTask(id: Long) = tasks.read(id)
+
+  def readAllTasks = tasks.readAll
+
+  def update(user: User) = users.update(user)
+
+  def update[A](task: Task[A]) = tasks.update(task)
+
+  def deleteUser(id: Long) = users.delete(id)
+
+  def deleteTask(id: Long) = tasks.delete(id)
+}
 
 object DefaultDb extends Db(CredentialTable.empty, Table.empty)
 

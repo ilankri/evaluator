@@ -8,8 +8,8 @@ private[db] class Table[Resource <: Identifiable](
   import collection.concurrent._
 
   private[this] val tbl: Map[Long, Resource] =
-    TrieMap.empty ++= (
-      for (resource <- resources) yield (resource.id -> resource)
+    TrieMap(
+      (for (resource <- resources) yield (resource.id -> resource)).toSeq: _*
     )
 
   override def create(resource: Resource) = tbl += (resource.id -> resource)

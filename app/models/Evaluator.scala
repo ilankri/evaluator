@@ -3,12 +3,12 @@ package models
 import java.time.LocalDateTime
 
 trait Evaluator extends User {
-  private[this] var _tasks = Set.empty[Long]
+  private[this] val _tasks = util.SynchronizedSet.empty[Task[Any]]
 
   def submitTask[A](description: String, content: A,
     deadline: Option[LocalDateTime] = None) = {
     val task = new Task(this, description, content, deadline)
-    _tasks += task.id
+    _tasks += task
     task
   }
 

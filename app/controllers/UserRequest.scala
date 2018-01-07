@@ -34,7 +34,7 @@ class UserAction(
     val resOnUnauthorized: Either[Result, UserRequest[A]] =
       Left(resultOnUnauthorized)
     request.session.get(userIdKey).fold(resOnUnauthorized)(id =>
-      db.users.read(id.toLong).fold(resOnUnauthorized)(user =>
+      db.readUser(id.toLong).fold(resOnUnauthorized)(user =>
         Right(new UserRequest(request, user))))
   }
 }

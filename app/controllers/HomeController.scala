@@ -38,7 +38,7 @@ class HomeController(cc: UserControllerComponents)
     SigninForm.form.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.signin(formWithErrors, false)),
       signinData => {
-        val user = cc.db.users.read(signinData.username, signinData.password)
+        val user = cc.db.readUser(signinData.username, signinData.password)
         user.fold(BadRequest(views.html.signin(SigninForm.form, true)))(user =>
           Redirect(routes.UserController.home).withSession(
             request.session + (cc.userIdKey -> user.id.toString))
@@ -46,5 +46,4 @@ class HomeController(cc: UserControllerComponents)
       }
     )
   }
-
 }

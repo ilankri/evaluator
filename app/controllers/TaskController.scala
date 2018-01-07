@@ -9,7 +9,7 @@ class TaskController(cc: UserControllerComponents)
   def read(id: Long) = TODO
 
   def readAll = userAction { implicit request =>
-    Ok(views.html.tasks("All tasks", cc.db.tasks.readAll))
+    Ok(views.html.tasks("All tasks", cc.db.readAllTasks))
   }
 
   def readAllDeliverables(id: Long) = TODO
