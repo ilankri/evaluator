@@ -30,13 +30,13 @@ class HomeController(cc: AppControllerComponents)
 
   def signinPage = Action { implicit request =>
     request.session.get(cc.userIdKey).fold(
-      Ok(views.html.signin(SigninForm.form, false)))(_ =>
+      Ok(views.html.signin(SigninForm.form)))(_ =>
         Redirect(routes.UserController.home))
   }
 
   def signin = Action { implicit request =>
     SigninForm.form.bindFromRequest.fold(
-      formWithErrors => BadRequest(views.html.signin(formWithErrors, false)),
+      formWithErrors => BadRequest(views.html.signin(formWithErrors)),
       signinData => {
         val user = cc.db.readUser(signinData.username, signinData.password)
         user.fold(BadRequest(views.html.signin(SigninForm.form, true)))(user =>

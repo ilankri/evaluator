@@ -1,4 +1,4 @@
-@(signinForm: Form[SigninForm.Data], invalidCredentials: Boolean)(implicit request: MessagesRequestHeader)
+@(signinForm: Form[SigninForm.Data], invalidCredentials: Boolean = false)(implicit request: MessagesRequestHeader)
 
 @main("Signin") {
   <div class="container-fluid">
