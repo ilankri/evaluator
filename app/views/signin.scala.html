@@ -2,7 +2,7 @@
 
 @main("Signin") {
   <div class="container-fluid">
-    @helper.form(action = routes.HomeController.signin, 'class -> "form-signin") {
+    @helper.form(action = routes.AppController.signin, 'class -> "form-signin") {
       <h2 class="form-signin-heading">Sign in</h2>
       @if(invalidCredentials) { Invalid credentials, try again. }
       @helper.CSRF.formField

@@ -25,7 +25,7 @@ abstract class AppAbstractController(cc: AppControllerComponents)
     Action andThen new UserAction(
       cc.db,
       cc.userIdKey,
-      Redirect(routes.HomeController.signinForm),
+      Redirect(routes.AppController.signinForm),
       cc.executionContext
     )
 

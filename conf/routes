@@ -4,20 +4,20 @@
 # ~~~~
 
 # The home page of the application is the "sign in" one.
-GET     /			controllers.HomeController.index
+GET     /			controllers.AppController.index
 
-GET     /signup			controllers.HomeController.signupForm
+GET     /signup			controllers.AppController.signupForm
 
-POST	/signup			controllers.HomeController.signup
+POST	/signup			controllers.AppController.signup
 
-GET     /signin			controllers.HomeController.signinForm
+GET     /signin			controllers.AppController.signinForm
 
-POST    /signin                 controllers.HomeController.signin
+POST    /signin                 controllers.AppController.signin
 
-GET	/signout		controllers.HomeController.signout
+GET	/signout		controllers.AppController.signout
 
 #show detail of cours2
-GET    /cour2.html     controllers.HomeController.cour2
+GET    /cour2.html     controllers.AppController.cour2
 
 # Show the home page of the user with the given id.
 GET     /users/:id              controllers.Users.read(id: Long)

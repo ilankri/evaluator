@@ -6,7 +6,7 @@ import play.api.mvc._
   * This controller creates an `Action` to handle HTTP requests to the
   * application's home page.
   */
-class HomeController(cc: AppControllerComponents)
+class AppController(cc: AppControllerComponents)
   extends MessagesAbstractController(cc) {
 
   /**
@@ -16,7 +16,7 @@ class HomeController(cc: AppControllerComponents)
     * will be called when the application receives a `GET` request with
     * a path of `/`.
     */
-  def index = Action { Redirect(routes.HomeController.signinForm) }
+  def index = Action { Redirect(routes.AppController.signinForm) }
 
   def signupForm = Action { Ok(views.html.signup()) }
 
@@ -46,7 +46,7 @@ class HomeController(cc: AppControllerComponents)
   }
 
   def signout = Action { request =>
-    Redirect(routes.HomeController.signinForm).withSession(
+    Redirect(routes.AppController.signinForm).withSession(
       request.session - cc.userIdKey
     )
   }

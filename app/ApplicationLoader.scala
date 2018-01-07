@@ -29,13 +29,13 @@ class Components(context: ApplicationLoader.Context)
       db.MockDb(10),
       "id")
 
-  lazy val homeController = new controllers.HomeController(controllerComponents)
+  lazy val appController = new controllers.AppController(controllerComponents)
 
   lazy val userController = new controllers.Users(controllerComponents)
 
   lazy val taskController = new controllers.Tasks(controllerComponents)
 
   lazy val router =
-    new Routes(httpErrorHandler, homeController, userController, taskController,
+    new Routes(httpErrorHandler, appController, userController, taskController,
       assets)
 }
