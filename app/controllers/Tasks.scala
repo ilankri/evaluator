@@ -3,21 +3,31 @@ package controllers
 import play.api.mvc._
 
 class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
-  def form = TODO
+  def creationForm = TODO
+
+  def form(id: Long) = TODO
 
   def create = TODO
 
   def read(id: Long) = TODO
 
   def readAll = workerAction { implicit request: WorkerRequest[AnyContent] =>
-    Ok(views.html.tasks("All tasks", cc.db.readAllTasks))
+    Ok(views.html.allTasks(cc.db.readAllTasks))
   }
 
-  def readAllDeliverables(id: Long) = TODO
+  def deliverables(id: Long) = TODO
 
-  def register(taskId: Long, userId: Long) = TODO
+  def register(taskId: Long, userId: Long) =
+    authTaskWorkerAction(taskId, userId) { request =>
+      request.worker register request.task
+      Ok
+    }
 
-  def unregister(taskId: Long, userId: Long) = TODO
+  def unregister(taskId: Long, userId: Long) =
+    authTaskWorkerAction(taskId, userId) { request =>
+      request.worker unregister request.task
+      Ok
+    }
 
   def deliver(id: Long) = TODO
 

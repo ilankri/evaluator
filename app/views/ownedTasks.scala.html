@@ -1,0 +1,10 @@
+@(tasks: Traversable[Task[Any]])(implicit request: EvaluatorRequest[_])
+
+@userMain("My Owned tasks", request.user) {
+  @for(task <- tasks) {
+    @taskItem(task) {
+      <a href="@routes.Tasks.deliverables(task.id)" class="btn btn-primary">Deliverables</a>
+    }
+    <hr>
+  }
+}

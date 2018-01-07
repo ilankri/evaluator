@@ -33,7 +33,7 @@ GET	/users/:id/ownedtasks	controllers.Users.ownedTasks(id: Long)
 GET	/tasks			controllers.Tasks.readAll
 
 # Display a page for creating a new task.
-GET	/tasks/form		controllers.Tasks.form
+GET	/tasks/form		controllers.Tasks.creationForm
 
 # Submit a task.
 POST	/tasks			controllers.Tasks.create
@@ -41,17 +41,22 @@ POST	/tasks			controllers.Tasks.create
 # Display a task.
 GET	/tasks/:id		controllers.Tasks.read(id: Long)
 
+# Display a task.
+GET	/tasks/:id/form		controllers.Tasks.form(id: Long)
+
 # Delete a task.
 DELETE	/tasks/:id		controllers.Tasks.delete(id: Long)
 
 # Register a user for a task.
++nocsrf
 POST	/tasks/:taskId/users/:userId	controllers.Tasks.register(taskId: Long, userId: Long)
 
 # Unregister a user from a task.
++nocsrf
 DELETE	/tasks/:taskId/users/:userId	controllers.Tasks.unregister(taskId: Long, userId: Long)
 
-# # Get all the deliverables for a given task.
-# GET	/tasks/:id/deliverables	controllers.Tasks.getAllDeliverables(id: Long)
+# Get all the deliverables for a given task.
+GET	/tasks/:id/deliverables	controllers.Tasks.deliverables(id: Long)
 
 # # Submit a deliverable.
 # POST	/tasks/:id/deliver	controllers.Tasks.deliver(id: Long)

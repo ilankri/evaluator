@@ -1,7 +1,11 @@
-@(title: String, tasks: Traversable[Task[Any]])(implicit request: UserRequest[_])
+@(tasks: Traversable[Task[Any]])(implicit request: WorkerRequest[_])
 
-@userMain(title, request.user) {
+@userMain("My tasks", request.user) {
   @for(task <- tasks) {
-    @task<br><br>
+    @taskItem(task) {
+      <a href="@routes.Tasks.form(task.id)" class="btn btn-primary">Deliver</a>
+      <button class="btn btn-primary" onclick="unregisterTaskRequest(@task.id, @request.user.id)">Unregister</button>
+    }
+    <hr>
   }
 }

@@ -77,10 +77,10 @@ abstract class UserAbstractController(cc: AppControllerComponents)
       }
     }
 
-  def userAction(id: Long) =
+  def authUserAction(id: Long) =
     super.userAction andThen permissionCheckAction(id, cc.executionContext)
 
-  def workerAction(id: Long) = userAction(id) andThen workerRefiner
+  def authWorkerAction(id: Long) = authUserAction(id) andThen workerRefiner
 
-  def evaluatorAction(id: Long) = userAction(id) andThen evaluatorRefiner
+  def authEvaluatorAction(id: Long) = authUserAction(id) andThen evaluatorRefiner
 }

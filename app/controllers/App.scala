@@ -43,4 +43,7 @@ abstract class AppAbstractController(cc: AppControllerComponents)
 object AppResults {
   val unauthorized =
     Results.Unauthorized(<h1>Unauthorized</h1>).as(http.ContentTypes.HTML)
+
+  val notFound =
+    Results.NotFound(<h1>Not Found</h1>).as(http.ContentTypes.HTML)
 }

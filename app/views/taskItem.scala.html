@@ -1,0 +1,11 @@
+@(task: Task[Any])(buttons: Html)
+
+<div class="card-body">
+  <h4 class="card-title">Task @task.id</h4>
+  <ul>
+    <li class="card-text">Description: @task.description</li>
+    <li class="card-text">Author: @task.author.name</li>
+    <li class="card-text">Deadline: @task.deadline.getOrElse("None")</li>
+  </ul>
+  @buttons
+</div>
