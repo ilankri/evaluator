@@ -19,6 +19,9 @@ GET	/signout		controllers.AppController.signout
 #show detail of cours2
 GET    /cour2.html     controllers.AppController.cour2
 
+#show detail of cours3
+GET    /cour3.html     controllers.AppController.cour3
+
 # Show the home page of the user with the given id.
 GET     /users/:id              controllers.Users.read(id: Long)
 
