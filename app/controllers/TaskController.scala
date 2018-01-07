@@ -1,6 +1,6 @@
 package controllers
 
-class TaskController(cc: UserControllerComponents)
+class TaskController(cc: AppControllerComponents)
   extends UserAbstractController(cc) {
   def createPage = TODO
 

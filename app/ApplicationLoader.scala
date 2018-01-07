@@ -18,7 +18,7 @@ class Components(context: ApplicationLoader.Context)
       new BodyParsers.Default(playBodyParsers), messagesApi)
 
   override lazy val controllerComponents =
-    new controllers.UserControllerComponents(
+    new controllers.AppControllerComponents(
       messagesAction,
       Action,
       playBodyParsers,

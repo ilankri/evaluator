@@ -2,7 +2,6 @@ package controllers
 
 import concurrent._
 
-import play.api._
 import play.api.mvc._
 
 import db._
@@ -66,7 +65,7 @@ class EvaluatorAction(
   }
 }
 
-abstract class UserAbstractController(cc: UserControllerComponents)
+abstract class UserAbstractController(cc: AppControllerComponents)
   extends MessagesAbstractController(cc) {
   private val unauthorized = Unauthorized(<h1>Unauthorized</h1>).as(HTML)
 
@@ -82,17 +81,3 @@ abstract class UserAbstractController(cc: UserControllerComponents)
   def evaluatorAction =
     userAction andThen (new EvaluatorAction(unauthorized, cc.executionContext))
 }
-
-class UserControllerComponents(
-    messagesActionBuilder: MessagesActionBuilder,
-    actionBuilder: DefaultActionBuilder,
-    parsers: PlayBodyParsers,
-    messagesApi: i18n.MessagesApi,
-    langs: i18n.Langs,
-    fileMimeTypes: http.FileMimeTypes,
-    executionContext: concurrent.ExecutionContext,
-    val db: Db,
-    val userIdKey: String)
-  extends DefaultMessagesControllerComponents(
-    messagesActionBuilder,
-    actionBuilder, parsers, messagesApi, langs, fileMimeTypes, executionContext)

@@ -1,6 +1,6 @@
 package controllers
 
-class UserController(cc: UserControllerComponents)
+class UserController(cc: AppControllerComponents)
   extends UserAbstractController(cc) {
   def home = userAction { request => Ok(views.html.home(request.user)) }
 
