@@ -16,9 +16,9 @@ class HomeController(cc: AppControllerComponents)
     * will be called when the application receives a `GET` request with
     * a path of `/`.
     */
-  def index = Action { Redirect(routes.UserController.home) }
+  def index = Action { Redirect(routes.HomeController.signinForm) }
 
-  def signupPage = Action { Ok(views.html.signup()) }
+  def signupForm = Action { Ok(views.html.signup()) }
 
   def signup = TODO
 
@@ -28,10 +28,8 @@ class HomeController(cc: AppControllerComponents)
 
   }
 
-  def signinPage = Action { implicit request =>
-    request.session.get(cc.userIdKey).fold(
-      Ok(views.html.signin(SigninForm.form)))(_ =>
-        Redirect(routes.UserController.home))
+  def signinForm = Action { implicit request =>
+    Ok(views.html.signin(SigninForm.form)(request))
   }
 
   def signin = Action { implicit request =>
@@ -40,10 +38,16 @@ class HomeController(cc: AppControllerComponents)
       signinData => {
         val user = cc.db.readUser(signinData.username, signinData.password)
         user.fold(BadRequest(views.html.signin(SigninForm.form, true)))(user =>
-          Redirect(routes.UserController.home).withSession(
+          Redirect(routes.Users.read(user.id)).withSession(
             request.session + (cc.userIdKey -> user.id.toString))
         )
       }
+    )
+  }
+
+  def signout = Action { request =>
+    Redirect(routes.HomeController.signinForm).withSession(
+      request.session - cc.userIdKey
     )
   }
 }

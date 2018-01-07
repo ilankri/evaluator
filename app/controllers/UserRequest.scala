@@ -66,18 +66,21 @@ class EvaluatorAction(
 }
 
 abstract class UserAbstractController(cc: AppControllerComponents)
-  extends MessagesAbstractController(cc) {
-  private val unauthorized = Unauthorized(<h1>Unauthorized</h1>).as(HTML)
+  extends AppAbstractController(cc) {
+  private def permissionCheckAction(id: Long, ec: ExecutionContext) =
+    new ActionFilter[UserRequest] {
+      override def executionContext = ec
 
-  def userAction =
-    Action andThen (
-      new UserAction(cc.db, cc.userIdKey,
-        Redirect(routes.HomeController.signinPage), cc.executionContext)
-    )
+      override def filter[A](request: UserRequest[A]) = Future.successful {
+        if (request.user.id != id) Some(AppResults.unauthorized) else
+          None
+      }
+    }
 
-  def workerAction =
-    userAction andThen (new WorkerAction(unauthorized, cc.executionContext))
+  def userAction(id: Long) =
+    super.userAction andThen permissionCheckAction(id, cc.executionContext)
 
-  def evaluatorAction =
-    userAction andThen (new EvaluatorAction(unauthorized, cc.executionContext))
+  def workerAction(id: Long) = userAction(id) andThen workerRefiner
+
+  def evaluatorAction(id: Long) = userAction(id) andThen evaluatorRefiner
 }

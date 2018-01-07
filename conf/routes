@@ -3,57 +3,55 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-# The home page of the application is the "sign in" one if the user is
-# not signed in, otherwise it is the user's home page.
+# The home page of the application is the "sign in" one.
 GET     /			controllers.HomeController.index
 
-GET     /signup			controllers.HomeController.signupPage
+GET     /signup			controllers.HomeController.signupForm
 
 POST	/signup			controllers.HomeController.signup
 
-GET     /signin			controllers.HomeController.signinPage
+GET     /signin			controllers.HomeController.signinForm
 
 POST    /signin                 controllers.HomeController.signin
+
+GET	/signout		controllers.HomeController.signout
 
 #show detail of cours2
 GET    /cour2.html     controllers.HomeController.cour2
 
-# Show the home page of the signed-in user.
-GET     /user/home              controllers.UserController.home
+# Show the home page of the user with the given id.
+GET     /users/:id              controllers.Users.read(id: Long)
 
-GET	/user/tasks		controllers.UserController.tasks
+GET	/users/:id/tasks	controllers.Users.tasks(id: Long)
 
-GET	/user/ownedtasks	controllers.UserController.ownedTasks
-
-GET	/user/signout           controllers.UserController.signout
-
-# Display a page for creating a new task.
-GET	/tasks/create		controllers.TaskController.createPage
-
-# Submit a task.
-POST	/tasks			controllers.TaskController.create
-
-# Display a task, more precisely display a page for creating a new
-# deliverable for the given task.
-GET	/tasks/:id		controllers.TaskController.read(id: Long)
+GET	/users/:id/ownedtasks	controllers.Users.ownedTasks(id: Long)
 
 # Display all the existing tasks.
-GET	/tasks			controllers.TaskController.readAll
+GET	/tasks			controllers.Tasks.readAll
 
-# Get all the deliverables for a given task.
-GET	/tasks/:id/deliverables	controllers.TaskController.readAllDeliverables(id: Long)
+# Display a page for creating a new task.
+GET	/tasks/form		controllers.Tasks.form
 
-# Register a user for a task.
-POST	/tasks/:id/register	controllers.TaskController.register(id: Long)
+# Submit a task.
+POST	/tasks			controllers.Tasks.create
 
-# Unregister a user from a task.
-DELETE	/tasks/:id/unregister	controllers.TaskController.unregister(id: Long)
-
-# Submit a deliverable.
-POST	/tasks/:id/deliver	controllers.TaskController.deliver(id: Long)
+# Display a task.
+GET	/tasks/:id		controllers.Tasks.read(id: Long)
 
 # Delete a task.
-DELETE	/tasks/:id		controllers.TaskController.delete(id: Long)
+DELETE	/tasks/:id		controllers.Tasks.delete(id: Long)
+
+# Register a user for a task.
+POST	/tasks/:taskId/users/:userId	controllers.Tasks.register(taskId: Long, userId: Long)
+
+# Unregister a user from a task.
+DELETE	/tasks/:taskId/users/:userId	controllers.Tasks.unregister(taskId: Long, userId: Long)
+
+# # Get all the deliverables for a given task.
+# GET	/tasks/:id/deliverables	controllers.Tasks.getAllDeliverables(id: Long)
+
+# # Submit a deliverable.
+# POST	/tasks/:id/deliver	controllers.Tasks.deliver(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path.
 GET     /assets/*file           controllers.Assets.versioned(path = "/public", file: Asset)
