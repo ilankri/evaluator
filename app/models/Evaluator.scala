@@ -15,5 +15,5 @@ trait Evaluator extends User {
   def evaluate[A](deliverable: Deliverable[A], evaluation: (Int, Int)) =
     deliverable.evaluation = evaluation
 
-  def submittedTasks = _tasks.toTraversable
+  def submittedTasks: Traversable[Task[Any]] = _tasks.toSet
 }

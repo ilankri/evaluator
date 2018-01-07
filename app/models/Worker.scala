@@ -23,7 +23,7 @@ trait Worker extends User {
     deliverable
   }
 
-  def tasks = _tasks.toTraversable
+  def tasks: Traversable[Task[Any]] = _tasks.toSet
 
   /* def deliverables = _tasks.toSet */
 }
