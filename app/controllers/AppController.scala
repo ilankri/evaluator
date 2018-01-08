@@ -34,6 +34,12 @@ class AppController(cc: AppControllerComponents)
 
   }
 
+  def cour4 = Action { implicit request: Request[AnyContent] =>
+
+    Ok(views.html.cour4())
+
+  }
+
   def signinForm = Action { implicit request =>
     Ok(views.html.signin(SigninForm.form)(request))
   }
