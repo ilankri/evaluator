@@ -46,4 +46,7 @@ object AppResults {
 
   val notFound =
     Results.NotFound(<h1>Not Found</h1>).as(http.ContentTypes.HTML)
+
+  val todo =
+    Results.NotImplemented(<h1>TODO</h1>).as(http.ContentTypes.HTML)
 }

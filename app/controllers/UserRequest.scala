@@ -82,5 +82,6 @@ abstract class UserAbstractController(cc: AppControllerComponents)
 
   def authWorkerAction(id: Long) = authUserAction(id) andThen workerRefiner
 
-  def authEvaluatorAction(id: Long) = authUserAction(id) andThen evaluatorRefiner
+  def authEvaluatorAction(id: Long) =
+    authUserAction(id) andThen evaluatorRefiner
 }

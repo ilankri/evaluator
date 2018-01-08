@@ -17,6 +17,8 @@ private[util] class SynchronizedSet[A](_elems: Set[A])
     this
   }
 
+  def contains(elem: A) = elems.get() contains elem
+
   def toSet = elems.get()
 
   def clear() = elems.set(Set.empty)

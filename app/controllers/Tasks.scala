@@ -3,19 +3,21 @@ package controllers
 import play.api.mvc._
 
 class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
-  def creationForm = TODO
+  def creationForm = evaluatorAction { AppResults.todo }
 
-  def form(id: Long) = TODO
+  def form(taskId: Long) = taskMemberAction(taskId) { AppResults.todo }
 
-  def create = TODO
+  def create = evaluatorAction { AppResults.todo }
 
-  def read(id: Long) = TODO
+  def read(taskId: Long) = TODO
 
   def readAll = workerAction { implicit request: WorkerRequest[AnyContent] =>
     Ok(views.html.allTasks(cc.db.readAllTasks))
   }
 
-  def deliverables(id: Long) = TODO
+  def deliverables(taskId: Long) = taskOwnerAction(taskId) { request =>
+    AppResults.todo
+  }
 
   def register(taskId: Long, userId: Long) =
     authTaskWorkerAction(taskId, userId) { request =>
@@ -29,7 +31,7 @@ class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
       Ok
     }
 
-  def deliver(id: Long) = TODO
+  def deliver(taskId: Long) = taskMemberAction(taskId) { AppResults.todo }
 
-  def delete(id: Long) = TODO
+  def delete(taskId: Long) = taskOwnerAction(taskId) { AppResults.todo }
 }

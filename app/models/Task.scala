@@ -23,6 +23,8 @@ class Task[+Fmt](
       case _ => None
     }
 
+  def member(worker: Worker) = workers contains worker
+
   def receive[A](deliverable: Deliverable[A]): Unit = {
     autocorrect(deliverable) foreach (deliverable.evaluation = _)
     /* _deliverables += deliverable */
