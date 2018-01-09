@@ -46,7 +46,8 @@ Hamdi HASSINE:
 +developper une partie de model(les classes Delivrable, Submission,Task,User)
 +developper des fonctions de controles dans la partie controleurs (Appcontroller , HomeController)
 +extention des cours
-+la mise à jour des vus HTML (home.html,cours1.html,...)
++la mise à jour de vue HTML (home.html)
++création des vus HTML(cour1.html cour2.html ...) et faire la liaison avec les controleurs
 +faire la video demo
  
 
