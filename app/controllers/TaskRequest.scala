@@ -6,15 +6,15 @@ import play.api.mvc._
 
 class TaskWorkerRequest[A](
     request: WorkerRequest[A],
-    val task: models.Task[Any])
-  extends WrappedRequest[A](request) {
+    val task: models.Task[models.AnyTaskFormat])
+  extends MessagesRequest[A](request, request.messagesApi) {
   def worker = request.user
 }
 
 class TaskEvaluatorRequest[A](
     request: EvaluatorRequest[A],
-    val task: models.Task[Any])
-  extends WrappedRequest[A](request) {
+    val task: models.Task[models.AnyTaskFormat])
+  extends MessagesRequest[A](request, request.messagesApi) {
   def evaluator = request.user
 }
 

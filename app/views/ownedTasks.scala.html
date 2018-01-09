@@ -1,4 +1,4 @@
-@(tasks: Traversable[Task[Any]])(implicit request: EvaluatorRequest[_])
+@(tasks: Traversable[Task[AnyTaskFormat]])(implicit request: EvaluatorRequest[_])
 
 @userMain("My Owned tasks", request.user) {
   @for(task <- tasks) {

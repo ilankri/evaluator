@@ -67,8 +67,8 @@ DELETE	/tasks/:taskId/users/:userId	controllers.Tasks.unregister(taskId: Long, u
 # Get all the deliverables for a given task.
 GET	/tasks/:id/deliverables	controllers.Tasks.deliverables(id: Long)
 
-# # Submit a deliverable.
-# POST	/tasks/:id/deliver	controllers.Tasks.deliver(id: Long)
+# Submit a deliverable.
+POST	/tasks/:id/deliverables	controllers.Tasks.deliver(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path.
 GET     /assets/*file           controllers.Assets.versioned(path = "/public", file: Asset)

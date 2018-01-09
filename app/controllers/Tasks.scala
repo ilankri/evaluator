@@ -5,7 +5,13 @@ import play.api.mvc._
 class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
   def creationForm = evaluatorAction { AppResults.todo }
 
-  def form(taskId: Long) = taskMemberAction(taskId) { AppResults.todo }
+  def form(taskId: Long) = taskMemberAction(taskId) { implicit request =>
+    request.task.content match {
+      case mcq @ models.Mcq(_) =>
+        Ok(views.html.mcqDeliveryForm(McqDeliveryForm.form, mcq.questions))
+    }
+
+  }
 
   def create = evaluatorAction { AppResults.todo }
 
@@ -31,7 +37,15 @@ class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
       Ok
     }
 
-  def deliver(taskId: Long) = taskMemberAction(taskId) { AppResults.todo }
+  def deliver(taskId: Long) = taskMemberAction(taskId) { implicit request =>
+    request.task.content match {
+      case _: models.Mcq =>
+        McqDeliveryForm.deliver(
+          AppResults.todo,
+          Redirect(routes.Users.tasks(request.worker.id))
+        )
+    }
+  }
 
   def delete(taskId: Long) = taskOwnerAction(taskId) { AppResults.todo }
 }

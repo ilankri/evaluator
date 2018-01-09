@@ -1,4 +1,4 @@
-@(tasks: Traversable[Task[Any]])(implicit request: UserRequest[_])
+@(tasks: Traversable[Task[AnyTaskFormat]])(implicit request: UserRequest[_])
 
 @userMain("All tasks", request.user) {
   @for(task <- tasks) {

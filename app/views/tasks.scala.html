@@ -1,8 +1,9 @@
-@(tasks: Traversable[Task[Any]])(implicit request: WorkerRequest[_])
+@(tasks: Traversable[Task[AnyTaskFormat]])(implicit request: WorkerRequest[_])
 
 @userMain("My tasks", request.user) {
   @for(task <- tasks) {
     @taskItem(task) {
+      <p>Best result: @task.bestEvaluation(request.user).map(_.toString + " %").getOrElse("None")</p>
       <a href="@routes.Tasks.form(task.id)" class="btn btn-primary">Deliver</a>
       <button class="btn btn-primary" onclick="unregisterTaskRequest(@task.id, @request.user.id)">Unregister</button>
     }

@@ -1,0 +1,21 @@
+@(form: Form[McqData], questions: Seq[McqQuestion])(implicit request: TaskWorkerRequest[_])
+
+@userMain(s"Task ${request.task.id}", request.worker) {
+  <div class="container-fluid">
+    @helper.form(action = routes.Tasks.deliver(request.task.id), 'class -> "form") {
+      <h2>Answer the following questions</h2>
+      @helper.CSRF.formField
+      @helper.repeatWithIndex(form("questions"), questions.length) { (choicesField, i) =>
+        <h3>Question @{i + 1}: @questions(i).label</h3>
+        @helper.repeatWithIndex(form(s"questions[$i].choices"), questions(i).choices.length) { (choiceField, j) =>
+        <h4>@helper.checkbox(choiceField, '_label -> s"${j + 1}. ${questions(i).choices(j).label}")</h4>
+        <input type="hidden" name="@choiceField.name" id="@choiceField.id" value="false">
+
+        }
+      }
+      <h4>@helper.textarea(form("comment"), '_label -> "Comment")</h4>
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit answers</button>
+}
+  </div>
+}

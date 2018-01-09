@@ -9,7 +9,7 @@ import db._
 class UserRequest[A](
     request: MessagesRequest[A],
     val user: models.User)
-  extends WrappedRequest[A](request) {
+  extends MessagesRequest[A](request, request.messagesApi) {
   def unwrap = request
 }
 
@@ -45,7 +45,7 @@ class WorkerAction(
   override def refine[A](request: UserRequest[A]) = Future.successful {
     request.user match {
       case worker: models.Worker =>
-        Right(new WorkerRequest(request.unwrap, worker))
+        Right(new WorkerRequest(request, worker))
       case _ => Left(resultOnUnauthorized)
     }
   }
@@ -59,7 +59,7 @@ class EvaluatorAction(
   override def refine[A](request: UserRequest[A]) = Future.successful {
     request.user match {
       case evaluator: models.Evaluator =>
-        Right(new EvaluatorRequest(request.unwrap, evaluator))
+        Right(new EvaluatorRequest(request, evaluator))
       case _ => Left(resultOnUnauthorized)
     }
   }
