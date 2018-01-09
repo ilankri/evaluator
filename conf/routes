@@ -19,7 +19,7 @@ GET	/signout		controllers.AppController.signout
 #show detail of cours numéro 2
 GET    /cour2.html     controllers.AppController.cour2
 
-#show detail of cours3
+#show detail of cours number 3
 GET    /cour3.html     controllers.AppController.cour3
 
 #show detail of cours4
