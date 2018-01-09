@@ -29,3 +29,26 @@ sbt run
 ### Visit the home page of the web application
 
 Open a browser and enter the URL http://localhost:9000.
+
+
+## repartition des taches 
+
+Hamdi HASSINE:
+
++participer au cahier de charge
++faire le diagramme de classe de l'application (architecture de l'application)
++ faire le diagramme des sequences (les scénarios de l'application)
++developper une partie de model(les classes Delivrable, Submission,Task,User)
++developper des fonctions de controles dans la partie controleurs (Appcontroller , HomeController)
++extention des cours
++la mise à jour des vus HTML (home.html,cours1.html,...)
++faire la video demo
+ 
+
+
+
+
+
+
+
+
