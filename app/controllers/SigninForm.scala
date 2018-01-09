@@ -8,8 +8,8 @@ object SigninForm {
 
   val form = Form(
     mapping(
-      "Username" -> text,
-      "Password" -> text
+      "username" -> text,
+      "password" -> text
     )(Data.apply)(Data.unapply)
   )
 }

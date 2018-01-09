@@ -6,8 +6,8 @@
       <h2 class="form-signin-heading">Sign in</h2>
       @if(invalidCredentials) { Invalid credentials, try again. }
       @helper.CSRF.formField
-      @helper.inputText(SigninForm.form("Username"), 'class -> "form-control", 'required -> "", 'autofocus -> "")
-      @helper.inputPassword(SigninForm.form("Password"), 'class -> "form-control", 'required -> "")
+      @helper.inputText(SigninForm.form("username"), 'class -> "form-control", 'required -> "", 'autofocus -> "", '_label -> "Username")
+      @helper.inputPassword(SigninForm.form("password"), 'class -> "form-control", 'required -> "", '_label -> "Password")
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       <a href="signup.html">Don't you have an account yet ? Signup</a>
     }
