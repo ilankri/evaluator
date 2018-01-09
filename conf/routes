@@ -16,7 +16,7 @@ POST    /signin                 controllers.AppController.signin
 
 GET	/signout		controllers.AppController.signout
 
-#show detail of cours2
+#show detail of cours numéro 2
 GET    /cour2.html     controllers.AppController.cour2
 
 #show detail of cours3
