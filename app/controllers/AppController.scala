@@ -39,10 +39,16 @@ class AppController(cc: AppControllerComponents)
     Ok(views.html.cour4())
 
   }
-  
-    def cour5 = Action { implicit request: Request[AnyContent] =>
+
+  def cour5 = Action { implicit request: Request[AnyContent] =>
 
     Ok(views.html.cour5())
+
+  }
+
+  def cour6 = Action { implicit request: Request[AnyContent] =>
+
+    Ok(views.html.cour6())
 
   }
 
