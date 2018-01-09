@@ -4,10 +4,10 @@ import models._
 
 abstract class Db(
     users: CredentialTable[User],
-    tasks: Table[Task[Any]]) {
+    tasks: Table[Task[AnyTaskFormat]]) {
   def create(user: User) = users.create(user)
 
-  def create[A](task: Task[A]) = tasks.create(task)
+  def create(task: Task[AnyTaskFormat]) = tasks.create(task)
 
   def readUser(id: Long) = users.read(id)
 
@@ -26,7 +26,7 @@ object DefaultDb extends Db(CredentialTable.empty, Table.empty)
 
 private[db] class MockDb(
     users: CredentialTable[User],
-    tasks: Table[Task[Any]])
+    tasks: Table[Task[AnyTaskFormat]])
   extends Db(users, tasks)
 
 object MockDb {
@@ -46,23 +46,24 @@ object MockDb {
   }
 
   private def mcq(i: Long) = {
-    import models.mcq._
-
     assert(i >= 0)
+    def formatQuestion(equation: String) =
+      s"Among the propositions, which are solutions of the equation $equation ?"
+
     Mcq(Seq(
-      Question(
-        s"$i = ?",
+      McqQuestion(
+        formatQuestion(s"x = $i"),
         Seq(
-          Choice(s"$i", true),
-          Choice("-1", false)
+          McqChoice(s"$i", true),
+          McqChoice("-1", false)
         )
       ),
-      Question(
-        s"$i - $i = ?",
+      McqQuestion(
+        formatQuestion(s"x = $i - $i"),
         Seq(
-          Choice("0", true),
-          Choice("1", false),
-          Choice(s"$i - $i", true)
+          McqChoice("0", true),
+          McqChoice("1", false),
+          McqChoice(s"$i - $i", true)
         )
       )
     ))

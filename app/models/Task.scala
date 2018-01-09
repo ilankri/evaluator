@@ -2,7 +2,7 @@ package models
 
 import java.time.LocalDateTime
 
-class Task[+Fmt](
+class Task[+Fmt <: AnyTaskFormat](
     author: User,
     description: String,
     content: Fmt,
@@ -11,13 +11,14 @@ class Task[+Fmt](
     description, content) {
   private[this] val workers = util.SynchronizedSet.empty[Worker]
 
-  /* private[this] var _deliverables = Set.empty[Deliverable[DeliveryFmt, Fmt]] */
+  private[this] val _deliverables =
+    util.SynchronizedSet.empty[Deliverable[AnyDeliveryFormat]]
 
   def register(worker: Worker) = workers += worker
 
   def unregister(worker: Worker) = workers -= worker
 
-  private[this] def autocorrect[A](deliverable: Deliverable[A]) =
+  private[this] def autocorrect(deliverable: Deliverable[AnyDeliveryFormat]) =
     content match {
       case content: AutoCorrectable => content.correct(deliverable.content)
       case _ => None
@@ -25,12 +26,24 @@ class Task[+Fmt](
 
   def member(worker: Worker) = workers contains worker
 
-  def receive[A](deliverable: Deliverable[A]): Unit = {
-    autocorrect(deliverable) foreach (deliverable.evaluation = _)
-    /* _deliverables += deliverable */
+  def receive(deliverable: Deliverable[AnyDeliveryFormat]): Unit = {
+    autocorrect(deliverable) foreach deliverable.evaluation_=
+    _deliverables += deliverable
   }
 
-  /* def deliverables = _deliverables.toSet */
+  def deliverables: Traversable[Deliverable[AnyDeliveryFormat]] =
+    _deliverables.toSet
+
+  def bestEvaluation(worker: Worker): Option[Float] = {
+    val results =
+      for {
+        deliverable <- deliverables
+        if deliverable.author.id == worker.id && !deliverable.evaluation.isEmpty
+      } yield deliverable.evaluation.get
+    try Some(results.max) catch {
+      case _: UnsupportedOperationException => None
+    }
+  }
 
   override def toString =
     s"Task(id = $id, date = $date, authorId = ${author.id}, " +

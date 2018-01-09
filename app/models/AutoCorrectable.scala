@@ -1,5 +1,5 @@
 package models
 
 trait AutoCorrectable {
-  def correct(solution: Any): Option[(Int, Int)]
+  def correct(solution: AnyDeliveryFormat): Option[Float]
 }
