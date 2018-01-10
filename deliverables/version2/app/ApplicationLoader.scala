@@ -1,3 +1,5 @@
+package loader
+
 import play.api.{ controllers => _, _ }
 import play.api.mvc._
 
