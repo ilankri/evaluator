@@ -18,7 +18,6 @@ case class Mcq(questions: Seq[McqQuestion])
           questions.zip(solution.choices) count {
             case (question, choices) => question.check(choices)
           }
-        println(score)
         Some((score.toFloat / questions.size) * 100)
       case _ => None
     }
