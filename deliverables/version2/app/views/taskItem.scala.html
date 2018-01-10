@@ -1,6 +1,6 @@
 @(task: Task[AnyTaskFormat])(rest: Html)
 
-<div class="card-body">
+<div class="card-body" id="task@{task.id}">
   <h4 class="card-title">Task @task.id</h4>
   <ul>
     <li class="card-text">Description: @task.description</li>

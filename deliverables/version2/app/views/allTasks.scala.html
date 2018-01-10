@@ -1,9 +1,11 @@
-@(tasks: Traversable[Task[AnyTaskFormat]])(implicit request: UserRequest[_])
+@(tasks: Traversable[Task[AnyTaskFormat]])(implicit request: WorkerRequest[_])
 
 @userMain("All tasks", request.user) {
   @for(task <- tasks) {
     @taskItem(task) {
-      <button class="btn btn-primary" onclick="registerTaskRequest(@task.id, @request.user.id)">Register</button>
+      @if(!task.member(request.user)) {
+        <button id="button@task.id" class="btn btn-primary" onclick="registerTaskRequest(@task.id, @request.user.id)">Register</button>
+      }
     }
     <hr>
   }
