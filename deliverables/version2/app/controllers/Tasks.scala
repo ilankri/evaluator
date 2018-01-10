@@ -3,7 +3,9 @@ package controllers
 import play.api.mvc._
 
 class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
-  def creationForm = evaluatorAction { AppResults.todo }
+  def creationForm = evaluatorAction { implicit request =>
+    Ok(views.html.mcqCreationForm(McqCreationForm.form))
+  }
 
   def form(taskId: Long) = taskMemberAction(taskId) { implicit request =>
     request.task.content match {
@@ -13,7 +15,13 @@ class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
 
   }
 
-  def create = evaluatorAction { AppResults.todo }
+  def create = evaluatorAction { implicit request =>
+    McqCreationForm.submit(
+      AppResults.todo,
+      Redirect(routes.Users.ownedTasks(request.user.id)),
+      cc.db
+    )
+  }
 
   def read(taskId: Long) = TODO
 

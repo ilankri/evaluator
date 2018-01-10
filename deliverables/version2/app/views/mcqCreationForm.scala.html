@@ -1,0 +1,22 @@
+@(form: Form[McqCreationData])(implicit request: EvaluatorRequest[_])
+
+@userMain("Creation of a task", request.user) {
+  <div class="container-fluid">
+    @helper.form(action = routes.Tasks.create, 'class -> "form") {
+      @helper.CSRF.formField
+      @helper.textarea(form("description"), '_label -> <h2>Description of the task</h2>)
+      <h2>Questions</h2>
+      @helper.repeatWithIndex(form("questions"), 10) { (_, i) =>
+        <h3>Question @{i + 1}:</h3>
+        @helper.textarea(form(s"questions[$i].label"), '_label -> "")
+        @helper.repeatWithIndex(form(s"questions[$i].choices"), 3) { (choiceField, j) =>
+        @helper.textarea(form(s"questions[$i].choices[$j].label"), '_label -> s"Choice ${j + 1}:")
+        @helper.checkbox(form(s"questions[$i].choices[$j].right"), '_label -> "True?")
+        <input type="hidden" name="@choiceField.name" id="@choiceField.id" value="false">
+        }
+        <hr>
+      }
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit task</button>
+}
+  </div>
+}
