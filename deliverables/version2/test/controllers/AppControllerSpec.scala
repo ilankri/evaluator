@@ -15,7 +15,7 @@ import play.api.test.Helpers._
   * https://www.playframework.com/documentation/latest/ScalaTestingWithScalaTest
   */
 class AppControllerSpec extends PlaySpec with OneAppPerSuiteWithComponents {
-  override val components = new loader.Components(context)
+  override val components = new AppComponents(context)
 
   val expectedStatus = SEE_OTHER
   val expectedContentType = None
