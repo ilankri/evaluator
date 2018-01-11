@@ -67,6 +67,9 @@ DELETE	/tasks/:taskId/users/:userId	controllers.Tasks.unregister(taskId: Long, u
 # Get all the deliverables for a given task.
 GET	/tasks/:id/deliverables	controllers.Tasks.deliverables(id: Long)
 
+# Get a specific deliverable.
+GET	/tasks/:taskId/deliverables/:deliverableId	controllers.Tasks.deliverable(taskId: Long, deliverableId: Long)
+
 # Submit a deliverable.
 POST	/tasks/:id/deliverables	controllers.Tasks.deliver(id: Long)
 

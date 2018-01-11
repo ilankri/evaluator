@@ -1,0 +1,10 @@
+@(deliverables: Traversable[Deliverable[AnyDeliveryFormat]])(implicit request: TaskEvaluatorRequest[_])
+
+@userMain("Deliverables", request.evaluator) {
+  @for(deliverable <- deliverables) {
+    @deliverableItem(deliverable) {
+      <a href="@routes.Tasks.deliverable(request.task.id, deliverable.id)" class="btn btn-primary">Details</a>
+    }
+    <hr>
+  }
+}

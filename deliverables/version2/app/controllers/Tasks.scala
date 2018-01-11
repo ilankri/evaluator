@@ -29,9 +29,16 @@ class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
     Ok(views.html.allTasks(cc.db.readAllTasks))
   }
 
-  def deliverables(taskId: Long) = taskOwnerAction(taskId) { request =>
-    AppResults.todo
+  def deliverables(taskId: Long) = taskOwnerAction(taskId) { implicit request =>
+    Ok(views.html.deliverables(request.task.deliverables))
   }
+
+  /* TODO: "Htmlify" the rendering.  */
+  def deliverable(taskId: Long, deliverableId: Long) =
+    taskOwnerAction(taskId) { implicit request =>
+      Ok(request.task.deliverables.find(_.id == deliverableId).toString)
+        .as(HTML)
+    }
 
   def register(taskId: Long, userId: Long) =
     authTaskWorkerAction(taskId, userId) { request =>

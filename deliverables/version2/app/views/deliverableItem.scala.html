@@ -1,0 +1,11 @@
+@(deliverable: Deliverable[AnyDeliveryFormat])(rest: Html)
+
+<div class="card-body" id="deliverable@{deliverable.id}">
+  <h4 class="card-title">Deliverable @deliverable.id</h4>
+  <ul>
+    <li class="card-text">Description: @deliverable.description</li>
+    <li class="card-text">Author: @deliverable.author.name</li>
+    <li class="card-text">Submission date: @deliverable.date</li>
+  </ul>
+  @rest
+</div>
