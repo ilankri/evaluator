@@ -12,7 +12,7 @@ class WorkerSpec extends FlatSpec with MockFactory {
     worker shouldBe a[User]
   }
 
-  it should "not be registered for a task initially" in {
+  it should "not be registered for any task initially" in {
     worker.tasks shouldBe empty
   }
 
