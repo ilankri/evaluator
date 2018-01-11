@@ -40,17 +40,15 @@ class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
         .as(HTML)
     }
 
-  def register(taskId: Long, userId: Long) =
-    authTaskWorkerAction(taskId, userId) { request =>
-      request.worker register request.task
-      Ok
-    }
+  def register(id: Long) = taskWorkerAction(id) { request =>
+    request.worker register request.task
+    Ok
+  }
 
-  def unregister(taskId: Long, userId: Long) =
-    authTaskWorkerAction(taskId, userId) { request =>
-      request.worker unregister request.task
-      Ok
-    }
+  def unregister(id: Long) = taskMemberAction(id) { request =>
+    request.worker unregister request.task
+    Ok
+  }
 
   def deliver(taskId: Long) = taskMemberAction(taskId) { implicit request =>
     request.task.content match {

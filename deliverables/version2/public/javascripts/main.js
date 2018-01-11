@@ -13,8 +13,8 @@ function sendRequest(method, url, onSuccess) {
 }
 
 
-function sendTaskRequest(method, taskId, userId, onSuccess) {
-    sendRequest(method, "/tasks/" + taskId + "/users/" + userId, onSuccess);
+function sendTaskRequest(method, id, onSuccess) {
+    sendRequest(method, "/tasks/" + id + "/users", onSuccess);
 }
 
 function removeElementById(id) {
@@ -23,14 +23,14 @@ function removeElementById(id) {
     elem.parentNode.removeChild(elem);
 }
 
-function registerTaskRequest(taskId, userId) {
-    sendTaskRequest("POST", taskId, userId, function() {
-        removeElementById("button" + taskId);
+function registerTaskRequest(id) {
+    sendTaskRequest("POST", id, function() {
+        removeElementById("button" + id);
     });
 }
 
-function unregisterTaskRequest(taskId, userId) {
-    sendTaskRequest("DELETE", taskId, userId, function() {
-        removeElementById("task" + taskId);
+function unregisterTaskRequest(id) {
+    sendTaskRequest("DELETE", id, function() {
+        removeElementById("task" + id);
     });
 }

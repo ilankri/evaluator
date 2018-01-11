@@ -58,11 +58,11 @@ DELETE	/tasks/:id		controllers.Tasks.delete(id: Long)
 
 # Register a user for a task.
 +nocsrf
-POST	/tasks/:taskId/users/:userId	controllers.Tasks.register(taskId: Long, userId: Long)
+POST	/tasks/:id/users	controllers.Tasks.register(id: Long)
 
 # Unregister a user from a task.
 +nocsrf
-DELETE	/tasks/:taskId/users/:userId	controllers.Tasks.unregister(taskId: Long, userId: Long)
+DELETE	/tasks/:id/users	controllers.Tasks.unregister(id: Long)
 
 # Get all the deliverables for a given task.
 GET	/tasks/:id/deliverables	controllers.Tasks.deliverables(id: Long)

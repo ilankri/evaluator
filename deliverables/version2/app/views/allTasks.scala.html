@@ -4,7 +4,7 @@
   @for(task <- tasks) {
     @taskItem(task) {
       @if(!task.member(request.user)) {
-        <button id="button@task.id" class="btn btn-primary" onclick="registerTaskRequest(@task.id, @request.user.id)">Register</button>
+        <button id="button@task.id" class="btn btn-primary" onclick="registerTaskRequest(@task.id)">Register</button>
       }
     }
     <hr>

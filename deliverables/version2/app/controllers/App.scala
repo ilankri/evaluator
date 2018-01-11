@@ -3,6 +3,8 @@ package controllers
 import play.api._
 import play.api.mvc._
 
+import router.Routes
+
 import db._
 
 class AppControllerComponents(
@@ -19,25 +21,36 @@ class AppControllerComponents(
     messagesActionBuilder,
     actionBuilder, parsers, messagesApi, langs, fileMimeTypes, executionContext)
 
-abstract class AppAbstractController(cc: AppControllerComponents)
-  extends MessagesAbstractController(cc) {
-  def userAction =
-    Action andThen new UserAction(
-      cc.db,
-      cc.userIdKey,
-      Redirect(routes.AppController.signinForm),
-      cc.executionContext
-    )
+class AppComponents(context: ApplicationLoader.Context)
+  extends BuiltInComponentsFromContext(context)
+  with play.filters.HttpFiltersComponents
+  with AssetsComponents {
 
-  def workerRefiner =
-    new WorkerAction(AppResults.unauthorized, cc.executionContext)
+  val messagesAction =
+    new DefaultMessagesActionBuilderImpl(
+      new BodyParsers.Default(playBodyParsers), messagesApi)
 
-  def evaluatorRefiner =
-    new EvaluatorAction(AppResults.unauthorized, cc.executionContext)
+  override lazy val controllerComponents =
+    new AppControllerComponents(
+      messagesAction,
+      Action,
+      playBodyParsers,
+      messagesApi,
+      langs,
+      fileMimeTypes,
+      executionContext,
+      db.MockDb(10),
+      "id")
 
-  def workerAction = userAction andThen workerRefiner
+  lazy val appController = new AppController(controllerComponents)
 
-  def evaluatorAction = userAction andThen evaluatorRefiner
+  lazy val userController = new Users(controllerComponents)
+
+  lazy val taskController = new Tasks(controllerComponents)
+
+  lazy val router =
+    new Routes(httpErrorHandler, appController, userController, taskController,
+      assets)
 }
 
 object AppResults {

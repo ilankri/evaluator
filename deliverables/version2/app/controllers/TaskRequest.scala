@@ -71,15 +71,13 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
     }
 
   def taskMemberAction(taskId: Long) =
-    workerAction andThen taskWorkerRefiner(taskId, cc.executionContext) andThen
-      membershipCheckAction(cc.executionContext)
+    taskWorkerAction(taskId) andThen membershipCheckAction(cc.executionContext)
 
   def taskOwnerAction(taskId: Long) =
     evaluatorAction andThen
       taskEvaluatorRefiner(taskId, cc.executionContext) andThen
       ownershipCheckAction(cc.executionContext)
 
-  def authTaskWorkerAction(taskId: Long, userId: Long) =
-    authWorkerAction(userId) andThen
-      taskWorkerRefiner(taskId, cc.executionContext)
+  def taskWorkerAction(taskId: Long) =
+    workerAction andThen taskWorkerRefiner(taskId, cc.executionContext)
 }

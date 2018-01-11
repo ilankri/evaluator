@@ -66,7 +66,7 @@ class EvaluatorAction(
 }
 
 abstract class UserAbstractController(cc: AppControllerComponents)
-  extends AppAbstractController(cc) {
+  extends MessagesAbstractController(cc) {
   private def permissionCheckAction(id: Long, ec: ExecutionContext) =
     new ActionFilter[UserRequest] {
       override def executionContext = ec
@@ -77,8 +77,26 @@ abstract class UserAbstractController(cc: AppControllerComponents)
       }
     }
 
+  private def workerRefiner =
+    new WorkerAction(AppResults.unauthorized, cc.executionContext)
+
+  private def evaluatorRefiner =
+    new EvaluatorAction(AppResults.unauthorized, cc.executionContext)
+
+  private def userAction =
+    Action andThen new UserAction(
+      cc.db,
+      cc.userIdKey,
+      Redirect(routes.AppController.signinForm),
+      cc.executionContext
+    )
+
+  def workerAction = userAction andThen workerRefiner
+
+  def evaluatorAction = userAction andThen evaluatorRefiner
+
   def authUserAction(id: Long) =
-    super.userAction andThen permissionCheckAction(id, cc.executionContext)
+    userAction andThen permissionCheckAction(id, cc.executionContext)
 
   def authWorkerAction(id: Long) = authUserAction(id) andThen workerRefiner
 
