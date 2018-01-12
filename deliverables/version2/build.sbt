@@ -11,10 +11,8 @@ scalaVersion := "2.12.4"
 
 scalacOptions := Seq("-Xlint:_", "-deprecation", "-feature", "-unchecked")
 
-libraryDependencies ++= Seq(
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
-  "org.scalamock" %% "scalamock" % "4.0.0" % Test
-)
+libraryDependencies +=
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 
 /* Configure Scalariform to follow Scala style guide.  */
 scalariformPreferences := scalariformPreferences.value

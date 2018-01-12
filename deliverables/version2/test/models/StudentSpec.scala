@@ -4,7 +4,7 @@ import org.scalatest._
 import org.scalatest.Matchers._
 
 class StudentSpec extends FlatSpec {
-  val student = new Student(0, "", "", "")
+  val student = Mock.student
 
   "A student" should "be a user" in {
     student shouldBe a[User]
@@ -15,6 +15,6 @@ class StudentSpec extends FlatSpec {
   }
 
   it should "be an evaluator" in {
-    student shouldBe a[Evaluator]
+    student shouldBe an[Evaluator]
   }
 }

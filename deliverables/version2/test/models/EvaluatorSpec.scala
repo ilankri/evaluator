@@ -2,10 +2,9 @@ package models
 
 import org.scalatest._
 import org.scalatest.Matchers._
-import org.scalamock.scalatest.MockFactory
 
-class EvaluatorSpec extends FlatSpec with MockFactory {
-  val evaluator: Evaluator = new User(0, "", "", "") with Evaluator
+class EvaluatorSpec extends FlatSpec {
+  val evaluator = Mock.evaluator
 
   "An evaluator" should "be a user" in {
     evaluator shouldBe a[User]
@@ -15,24 +14,21 @@ class EvaluatorSpec extends FlatSpec with MockFactory {
     evaluator.submittedTasks shouldBe empty
   }
 
-  it should "be able to evaluate a deliverable" in {
-    val task = new Task(evaluator, "", Mcq(Seq.empty))
-    val deliverable = new Deliverable(
-      mock[User],
-      "",
-      McqSolution(Seq.empty),
-      task
-    )
-    evaluator.evaluate(deliverable, 0f)
-    deliverable.evaluation should be('defined)
-  }
-
   it should "be able to submit a task" in {
-    val task = evaluator.submitTask("", Mcq(Seq.empty))
+    val description = Mock.description
+    val task = evaluator.submitTask(description, Mock.taskFormat)
 
     task shouldBe a[Task[_]]
     task.author shouldBe evaluator
-    task.description shouldBe empty
-    task.content shouldBe a[AnyTaskFormat]
+    task.description shouldBe description
+    task.content shouldBe an[AnyTaskFormat]
   }
+
+  it should "be able to evaluate a deliverable" in {
+    val deliverable = Mock.deliverable
+    deliverable.evaluation should not be 'defined
+    evaluator.evaluate(deliverable, Mock.evaluation)
+    deliverable.evaluation shouldBe 'defined
+  }
+
 }
