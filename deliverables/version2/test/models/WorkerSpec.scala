@@ -27,7 +27,7 @@ class WorkerSpec extends FlatSpec {
       worker.submitDeliverable(description, Mock.deliveryFormat, task)
 
     deliverable shouldBe a[Deliverable[_]]
-    deliverable.author shouldBe worker
+    deliverable.author should have('id(worker.id))
     deliverable.description shouldBe description
     deliverable.content shouldBe an[AnyDeliveryFormat]
   }

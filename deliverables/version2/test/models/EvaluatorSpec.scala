@@ -19,7 +19,7 @@ class EvaluatorSpec extends FlatSpec {
     val task = evaluator.submitTask(description, Mock.taskFormat)
 
     task shouldBe a[Task[_]]
-    task.author shouldBe evaluator
+    task.author should have('id(evaluator.id))
     task.description shouldBe description
     task.content shouldBe an[AnyTaskFormat]
   }
