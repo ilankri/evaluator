@@ -17,17 +17,18 @@ abstract class User(
 /** Object for construction of users.  */
 object User extends util.IdGenerator {
   /** There are two types of users: students and instructors.  */
-  sealed abstract class Role
-  case object Student extends Role
-  case object Instructor extends Role
+  sealed abstract class Status
+  case object Student extends Status
+  case object Instructor extends Status
 
   /**
     * Creates a user with given name, email address, password and role.
     */
-  def apply(name: String, email: String, password: String, role: Role): User = {
+  def apply(name: String, email: String, password: String,
+    status: Status): User = {
     val id = nextId()
 
-    role match {
+    status match {
       case Student => new Student(id, name, email, password)
       case Instructor => new Instructor(id, name, email, password)
     }
