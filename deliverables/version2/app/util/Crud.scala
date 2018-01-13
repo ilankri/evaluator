@@ -13,7 +13,6 @@ trait Crud[Resource] {
     */
   def read(id: Long): Option[Resource]
 
-
   def update(resource: Resource): Unit
 
   /** Deletes the resource with the given identifier.  */

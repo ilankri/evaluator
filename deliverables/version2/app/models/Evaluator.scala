@@ -3,7 +3,7 @@ package models
 import java.time.LocalDateTime
 
 trait Evaluator extends User {
-  private[this] val _tasks = util.SynchronizedSet.empty[Task[AnyTaskFormat]]
+  private[this] val _tasks = util.ConcurrentSet.empty[Task[AnyTaskFormat]]
 
   def submitTask(description: String, content: AnyTaskFormat,
     deadline: Option[LocalDateTime] = None) = {

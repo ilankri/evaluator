@@ -9,10 +9,10 @@ class Task[+Fmt <: AnyTaskFormat](
     val deadline: Option[LocalDateTime] = None)
   extends Submission(Submission.nextId(), LocalDateTime.now(), author,
     description, content) {
-  private[this] val workers = util.SynchronizedSet.empty[Worker]
+  private[this] val workers = util.ConcurrentSet.empty[Worker]
 
   private[this] val _deliverables =
-    util.SynchronizedSet.empty[Deliverable[AnyDeliveryFormat]]
+    util.ConcurrentSet.empty[Deliverable[AnyDeliveryFormat]]
 
   def register(worker: Worker) = workers += worker
 
