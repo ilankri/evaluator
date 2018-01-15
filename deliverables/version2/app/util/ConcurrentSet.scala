@@ -31,7 +31,7 @@ private[util] class ConcurrentSet[A](_elems: Set[A])
   /** Returns true if and only if the given element is in the set.  */
   def contains(elem: A) = elems.get() contains elem
 
-  /** Convert this concurrent set to a standard immutable set.  */
+  /** Converts this concurrent set to a standard immutable set.  */
   def toSet = elems.get()
 
   def clear() = elems.set(Set.empty)

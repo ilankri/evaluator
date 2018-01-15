@@ -16,13 +16,14 @@ abstract class User(
 
 /** Object for construction of users.  */
 object User extends util.IdGenerator {
-  /** There are two types of users: students and instructors.  */
+  /** There are two types of user: students and instructors.  */
   sealed abstract class Status
   case object Student extends Status
   case object Instructor extends Status
 
   /**
-    * Creates a user with given name, email address, password and role.
+    * Creates a user with given name, email address, password and
+    * status.
     */
   def apply(name: String, email: String, password: String,
     status: Status): User = {
