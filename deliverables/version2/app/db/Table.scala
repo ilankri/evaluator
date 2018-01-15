@@ -2,6 +2,10 @@ package db
 
 import util._
 
+/**
+  * A table of a database is a pool of identifiable resources on which
+  * we can make CRUD operations.
+  */
 private[db] class Table[Resource <: Identifiable](
     resources: Traversable[Resource])
   extends Crud[Resource] {
@@ -23,12 +27,18 @@ private[db] class Table[Resource <: Identifiable](
   def readAll: Traversable[Resource] = tbl.values
 }
 
+/** Factory for creating database table.  */
 private[db] object Table {
   def apply[A <: Identifiable](resources: A*) = new Table[A](resources)
 
   def empty[A <: Identifiable] = apply[A]()
 }
 
+/**
+  * A "credential table" is like a standard table, except that, besides
+  * looking up an element by its ID, we can also lookup for element by
+  * credentials(name and password).
+  */
 private[db] class CredentialTable[Resource <: CredentialTable.WithCredentials](
     resources: Traversable[Resource])
   extends Table[Resource](resources) {

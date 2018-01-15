@@ -2,6 +2,10 @@ package db
 
 import models._
 
+/**
+  * Abstract class for representing an in-memory database for the
+  * application.  We manipulate two types of resource: users and tasks.
+  */
 abstract class Db(
     users: CredentialTable[User],
     tasks: Table[Task[AnyTaskFormat]]) {
@@ -22,6 +26,7 @@ abstract class Db(
   def deleteTask(id: Long) = tasks.delete(id)
 }
 
+/** The default in-memory database is empty.  */
 object DefaultDb extends Db(CredentialTable.empty, Table.empty)
 
 private[db] class MockDb(
@@ -29,6 +34,7 @@ private[db] class MockDb(
     tasks: Table[Task[AnyTaskFormat]])
   extends Db(users, tasks)
 
+/** Factory to build mock databases.  */
 object MockDb {
   private def instructors(nbInstructors: Int) = {
     def instructor(i: Int) =
@@ -79,6 +85,18 @@ object MockDb {
     for (e <- evaluators) yield e.submitTask(s"Description ${e.id}", mcq(e.id))
   }
 
+  /**
+    * Returns a mock database with `2 * n` users (`n` students and `n`
+    * instructors) and ` 2 * n` tasks (one for each user).  The
+    * credentials of users are :
+    *
+    * (student1, password1), ..., (student`n`, password`n`) for students
+    *
+    * and
+    *
+    *  (instructor1, password1), ..., (instructor`n`, password`n`)
+    * for instructors.
+    */
   def apply(n: Int) = {
     val users = instructors(n) ++ students(n)
     new MockDb(
