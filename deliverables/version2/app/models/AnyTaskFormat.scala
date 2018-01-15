@@ -1,6 +1,7 @@
 package models
 
-sealed abstract trait AnyTaskFormat
+/** Any task format must extend this class.  */
+sealed abstract class AnyTaskFormat
 
 case class McqQuestion(label: String, choices: Seq[McqChoice]) {
   def check(choices: Seq[Boolean]) = this.choices.map(_.right) == choices
@@ -8,6 +9,7 @@ case class McqQuestion(label: String, choices: Seq[McqChoice]) {
 
 case class McqChoice(label: String, right: Boolean)
 
+/** A MCQ is represented by a sequence of questions.  */
 case class Mcq(questions: Seq[McqQuestion])
   extends AnyTaskFormat with models.AutoCorrectable {
 
