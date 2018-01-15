@@ -6,14 +6,20 @@
 # The home page of the application is the "sign in" one.
 GET     /			controllers.AppController.index
 
+# Show the signup page.
 GET     /signup			controllers.AppController.signupForm
 
 POST	/signup			controllers.AppController.signup
 
+# Show the signin page.
 GET     /signin			controllers.AppController.signinForm
 
+# Handle the signin form, i.e. check if the credentials entered by the
+# user are right.  If this is the case, redirect the user to his home
+# page.
 POST    /signin                 controllers.AppController.signin
 
+# End the user session.
 GET	/signout		controllers.AppController.signout
 
 #show detail of cours numéro 2
@@ -31,11 +37,13 @@ GET    /cour5.html     controllers.AppController.cour5
 #show detail of cours6
 GET    /cour6.html     controllers.AppController.cour6
 
-# Show the home page of the user with the given id.
+# Show the home page of the user with the given ID.
 GET     /users/:id              controllers.Users.read(id: Long)
 
+# Show the tasks of the user with the given ID.
 GET	/users/:id/tasks	controllers.Users.tasks(id: Long)
 
+# Show the tasks owned by the user with the given ID.
 GET	/users/:id/ownedtasks	controllers.Users.ownedTasks(id: Long)
 
 # Display all the existing tasks.
@@ -50,7 +58,7 @@ POST	/tasks			controllers.Tasks.create
 # Display a task.
 GET	/tasks/:id		controllers.Tasks.read(id: Long)
 
-# Display a task.
+# Display a form for delivering the task with the given ID.
 GET	/tasks/:id/form		controllers.Tasks.form(id: Long)
 
 # Delete a task.
@@ -70,7 +78,7 @@ GET	/tasks/:id/deliverables	controllers.Tasks.deliverables(id: Long)
 # Get a specific deliverable.
 GET	/tasks/:taskId/deliverables/:deliverableId	controllers.Tasks.deliverable(taskId: Long, deliverableId: Long)
 
-# Submit a deliverable.
+# Submit a deliverable for the task with the given ID.
 POST	/tasks/:id/deliverables	controllers.Tasks.deliver(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path.
