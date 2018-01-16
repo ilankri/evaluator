@@ -32,7 +32,7 @@ GET    /users/cour2.html     controllers.AppController.cour2
 GET    /users/cour3.html     controllers.AppController.cour3
 
 #show detail of cours4
-GET    /cour4.html     controllers.AppController.cour4
+GET    /users/cour4.html     controllers.AppController.cour4
 
 #show detail of cours5
 GET    /cour5.html     controllers.AppController.cour5
