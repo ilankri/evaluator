@@ -37,6 +37,13 @@ sealed abstract class TaskForm[Data] {
 }
 
 object TaskForm {
+  object Kind {
+    def fromString(s: String) = s match {
+      case "mcq" => Mcq
+      case _ => Mcq
+    }
+  }
+
   sealed abstract class Kind
   case object Mcq extends Kind
 

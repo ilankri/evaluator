@@ -4,7 +4,7 @@ import play.api.mvc._
 
 class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
   def creationForm(kind: String) = evaluatorAction { implicit request =>
-    Ok(TaskForm.creationPage(TaskForm.Mcq))
+    Ok(TaskForm.creationPage(TaskForm.Kind.fromString(kind)))
   }
 
   def form(taskId: Long) = taskMemberAction(taskId) { implicit request =>
@@ -12,11 +12,10 @@ class Tasks(cc: AppControllerComponents) extends TaskAbstractController(cc) {
       case mcq @ models.Mcq(_) =>
         Ok(views.html.mcqDeliveryForm(McqDeliveryForm.form, mcq.questions))
     }
-
   }
 
   def create(kind: String) = evaluatorAction { implicit request =>
-    val validate = TaskForm.validator(TaskForm.Mcq)
+    val validate = TaskForm.validator(TaskForm.Kind.fromString(kind))
     validate(
       AppResults.todo,
       Redirect(routes.Users.ownedTasks(request.user.id)),
