@@ -2,7 +2,7 @@
 
 @userMain("Creation of a task", request.user) {
   <div class="container-fluid">
-    @helper.form(action = routes.Tasks.create, 'class -> "form") {
+    @helper.form(action = routes.Tasks.create("mcq"), 'class -> "form") {
       @helper.CSRF.formField
       @helper.textarea(form("description"), '_label -> <h2>Description of the task</h2>)
       <h2>Questions</h2>

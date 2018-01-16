@@ -7,12 +7,24 @@ import play.api.mvc._
 import db._
 import models._
 
-sealed abstract trait TaskForm[Data] {
+/**
+  * For each task format , we must implement this class to define a form
+  * for creating tasks of this format.  `Data` is the type of data
+  * needed to create a task.
+  */
+sealed abstract class TaskForm[Data] {
+  /** Returns the form for creating a task with data of type `Data`.  */
   def form: Form[Data]
 
-  def commitTask(data: Data, request: EvaluatorRequest[AnyContent], db: Db): Unit
+  /**
+    * Add the task created from the `data` and the `request` to the
+    * database.
+    */
+  def commitTask(data: Data, request: EvaluatorRequest[AnyContent],
+    db: Db): Unit
 
-  def submit(onFailure: Result, onSuccess: Result, db: Db)(
+  /** Validates the task creation form.  */
+  def validate(onFailure: Result, onSuccess: Result, db: Db)(
     implicit
     request: EvaluatorRequest[AnyContent]) =
     form.bindFromRequest.fold(
@@ -24,9 +36,28 @@ sealed abstract trait TaskForm[Data] {
     )
 }
 
+object TaskForm {
+  sealed abstract class Kind
+  case object Mcq extends Kind
+
+  def validator(kind: Kind)(
+    implicit
+    request: EvaluatorRequest[AnyContent]): (Result, Result, Db) => Result =
+    kind match {
+      case Mcq => McqCreationForm.validate
+    }
+
+  def creationPage(kind: Kind)(
+    implicit
+    request: EvaluatorRequest[AnyContent]): play.twirl.api.Html =
+    kind match {
+      case Mcq => views.html.mcqCreationForm(McqCreationForm.form)
+    }
+}
+
 case class McqCreationData(description: String, questions: Seq[McqQuestion]) {
   def buildTask(request: EvaluatorRequest[AnyContent]) =
-    request.user submitTask (description, Mcq(questions))
+    request.user.submitTask(description, Mcq(questions))
 }
 
 case object McqCreationForm extends TaskForm[McqCreationData] {

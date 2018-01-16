@@ -50,10 +50,10 @@ GET	/users/:id/ownedtasks	controllers.Users.ownedTasks(id: Long)
 GET	/tasks			controllers.Tasks.readAll
 
 # Display a page for creating a new task.
-GET	/tasks/form		controllers.Tasks.creationForm
+GET	/tasks/form		controllers.Tasks.creationForm(kind: String)
 
 # Submit a task.
-POST	/tasks			controllers.Tasks.create
+POST	/tasks			controllers.Tasks.create(kind: String)
 
 # Display a task.
 GET	/tasks/:id		controllers.Tasks.read(id: Long)

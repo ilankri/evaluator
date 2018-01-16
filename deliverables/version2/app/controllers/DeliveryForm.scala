@@ -6,7 +6,7 @@ import play.api.mvc._
 
 import models._
 
-sealed abstract trait DeliveryForm[Data] {
+sealed abstract class DeliveryForm[Data] {
   def form: Form[Data]
 
   def commitDeliverable(
@@ -29,7 +29,7 @@ case class ChoicesData(choices: Seq[Boolean])
 
 case class McqData(answers: Seq[ChoicesData], comment: String) {
   def buildDeliverable(request: TaskWorkerRequest[AnyContent]) =
-    request.worker submitDeliverable (
+    request.worker.submitDeliverable(
       comment,
       toMcqSolution,
       request.task
