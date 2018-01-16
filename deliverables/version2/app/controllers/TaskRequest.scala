@@ -4,6 +4,10 @@ import concurrent._
 
 import play.api.mvc._
 
+/**
+  * A "task worker request" is a request made on a certain task by
+  * a worker.
+  */
 class TaskWorkerRequest[A](
     request: WorkerRequest[A],
     val task: models.Task[models.AnyTaskFormat])
@@ -11,6 +15,10 @@ class TaskWorkerRequest[A](
   def worker = request.user
 }
 
+/**
+  * A "task evaluator request" is a request made on a certain task by an
+  * evaluator.
+  */
 class TaskEvaluatorRequest[A](
     request: EvaluatorRequest[A],
     val task: models.Task[models.AnyTaskFormat])
@@ -18,6 +26,12 @@ class TaskEvaluatorRequest[A](
   def evaluator = request.user
 }
 
+/**
+  * Abstract controller for the handling of tasks
+  *
+  * It provides several types of action according to the role and the
+  * permissions of the user.
+  */
 abstract class TaskAbstractController(cc: AppControllerComponents)
   extends UserAbstractController(cc) {
   private def asTaskWorkerAction(taskId: Long, ec: ExecutionContext) =
@@ -70,14 +84,26 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
         }
     }
 
+  /**
+    * Returns an action builder for requests made by a worker who is
+    * registered for the task with the given ID.
+    */
   def taskMemberAction(taskId: Long) =
     taskWorkerAction(taskId) andThen membershipCheckAction(cc.executionContext)
 
+  /**
+    * Returns an action builder for requests made by an evaluator who
+    * owns the task with the given ID.
+    */
   def taskOwnerAction(taskId: Long) =
     evaluatorAction andThen
       asTaskEvaluatorAction(taskId, cc.executionContext) andThen
       ownershipCheckAction(cc.executionContext)
 
+  /**
+    * Returns an action builder for requests on the task with the given
+    * ID made by any worker (regardless of his registration status).
+    */
   def taskWorkerAction(taskId: Long) =
     workerAction andThen asTaskWorkerAction(taskId, cc.executionContext)
 }
