@@ -38,7 +38,7 @@ GET    /users/cour4.html     controllers.AppController.cour4
 GET    /users/cour5.html     controllers.AppController.cour5
 
 #show detail of cours6
-GET    /cour6.html     controllers.AppController.cour6
+GET    /users/cour6.html     controllers.AppController.cour6
 
 # Show the home page of the user with the given ID.
 GET     /users/:id              controllers.Users.read(id: Long)
