@@ -34,9 +34,9 @@ class TaskEvaluatorRequest[A](
   */
 abstract class TaskAbstractController(cc: AppControllerComponents)
   extends UserAbstractController(cc) {
-  private def asTaskWorkerAction(taskId: Long, ec: ExecutionContext) =
+  private def asTaskWorkerAction(taskId: Long) =
     new ActionRefiner[WorkerRequest, TaskWorkerRequest] {
-      def executionContext = ec
+      def executionContext = cc.executionContext
 
       def refine[A](request: WorkerRequest[A]) = Future.successful {
         cc.db.readTask(taskId).fold[Either[Result, TaskWorkerRequest[A]]](
@@ -46,9 +46,9 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
       }
     }
 
-  private def asTaskEvaluatorAction(taskId: Long, ec: ExecutionContext) =
+  private def asTaskEvaluatorAction(taskId: Long) =
     new ActionRefiner[EvaluatorRequest, TaskEvaluatorRequest] {
-      def executionContext = ec
+      def executionContext = cc.executionContext
 
       def refine[A](request: EvaluatorRequest[A]) = Future.successful {
         cc.db.readTask(taskId).fold[Either[Result, TaskEvaluatorRequest[A]]](
@@ -58,9 +58,9 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
       }
     }
 
-  private def membershipCheckAction(ec: ExecutionContext) =
+  private def membershipCheckAction =
     new ActionFilter[TaskWorkerRequest] {
-      override def executionContext = ec
+      override def executionContext = cc.executionContext
 
       override def filter[A](request: TaskWorkerRequest[A]) =
         Future.successful {
@@ -71,9 +71,9 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
         }
     }
 
-  private def ownershipCheckAction(ec: ExecutionContext) =
+  private def ownershipCheckAction =
     new ActionFilter[TaskEvaluatorRequest] {
-      override def executionContext = ec
+      override def executionContext = cc.executionContext
 
       override def filter[A](request: TaskEvaluatorRequest[A]) =
         Future.successful {
@@ -89,21 +89,20 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
     * registered for the task with the given ID.
     */
   def taskMemberAction(taskId: Long) =
-    taskWorkerAction(taskId) andThen membershipCheckAction(cc.executionContext)
+    taskWorkerAction(taskId) andThen membershipCheckAction
 
   /**
     * Returns an action builder for requests made by an evaluator who
     * owns the task with the given ID.
     */
   def taskOwnerAction(taskId: Long) =
-    evaluatorAction andThen
-      asTaskEvaluatorAction(taskId, cc.executionContext) andThen
-      ownershipCheckAction(cc.executionContext)
+    evaluatorAction andThen asTaskEvaluatorAction(taskId) andThen
+      ownershipCheckAction
 
   /**
     * Returns an action builder for requests on the task with the given
     * ID made by any worker (regardless of his registration status).
     */
   def taskWorkerAction(taskId: Long) =
-    workerAction andThen asTaskWorkerAction(taskId, cc.executionContext)
+    workerAction andThen asTaskWorkerAction(taskId)
 }
