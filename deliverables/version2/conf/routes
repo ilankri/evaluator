@@ -22,8 +22,11 @@ POST    /signin                 controllers.AppController.signin
 # End the user session.
 GET	/signout		controllers.AppController.signout
 
+#show detail of cours numéro 1
+GET    /users/cour1.html     controllers.AppController.cour1
+
 #show detail of cours numéro 2
-GET    /cour2.html     controllers.AppController.cour2
+GET    /users/cour2.html     controllers.AppController.cour2
 
 #show detail of cours number 3
 GET    /cour3.html     controllers.AppController.cour3

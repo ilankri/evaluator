@@ -16,6 +16,12 @@ class AppController(cc: AppControllerComponents)
 
   def signup = TODO
 
+  def cour1 = Action { implicit request: Request[AnyContent] =>
+
+    Ok(views.html.cour1())
+
+  }
+
   def cour2 = Action { implicit request: Request[AnyContent] =>
 
     Ok(views.html.cour2())
