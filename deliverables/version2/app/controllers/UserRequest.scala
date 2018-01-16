@@ -77,10 +77,10 @@ abstract class UserAbstractController(cc: AppControllerComponents)
       }
     }
 
-  private def workerRefiner =
+  private def asWorkerAction =
     new WorkerAction(AppResults.unauthorized, cc.executionContext)
 
-  private def evaluatorRefiner =
+  private def asEvaluatorAction =
     new EvaluatorAction(AppResults.unauthorized, cc.executionContext)
 
   private def userAction =
@@ -91,15 +91,15 @@ abstract class UserAbstractController(cc: AppControllerComponents)
       cc.executionContext
     )
 
-  def workerAction = userAction andThen workerRefiner
+  def workerAction = userAction andThen asWorkerAction
 
-  def evaluatorAction = userAction andThen evaluatorRefiner
+  def evaluatorAction = userAction andThen asEvaluatorAction
 
   def authUserAction(id: Long) =
     userAction andThen permissionCheckAction(id, cc.executionContext)
 
-  def authWorkerAction(id: Long) = authUserAction(id) andThen workerRefiner
+  def authWorkerAction(id: Long) = authUserAction(id) andThen asWorkerAction
 
   def authEvaluatorAction(id: Long) =
-    authUserAction(id) andThen evaluatorRefiner
+    authUserAction(id) andThen asEvaluatorAction
 }

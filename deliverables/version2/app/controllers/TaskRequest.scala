@@ -20,7 +20,7 @@ class TaskEvaluatorRequest[A](
 
 abstract class TaskAbstractController(cc: AppControllerComponents)
   extends UserAbstractController(cc) {
-  private def taskWorkerRefiner(taskId: Long, ec: ExecutionContext) =
+  private def asTaskWorkerAction(taskId: Long, ec: ExecutionContext) =
     new ActionRefiner[WorkerRequest, TaskWorkerRequest] {
       def executionContext = ec
 
@@ -32,7 +32,7 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
       }
     }
 
-  private def taskEvaluatorRefiner(taskId: Long, ec: ExecutionContext) =
+  private def asTaskEvaluatorAction(taskId: Long, ec: ExecutionContext) =
     new ActionRefiner[EvaluatorRequest, TaskEvaluatorRequest] {
       def executionContext = ec
 
@@ -75,9 +75,9 @@ abstract class TaskAbstractController(cc: AppControllerComponents)
 
   def taskOwnerAction(taskId: Long) =
     evaluatorAction andThen
-      taskEvaluatorRefiner(taskId, cc.executionContext) andThen
+      asTaskEvaluatorAction(taskId, cc.executionContext) andThen
       ownershipCheckAction(cc.executionContext)
 
   def taskWorkerAction(taskId: Long) =
-    workerAction andThen taskWorkerRefiner(taskId, cc.executionContext)
+    workerAction andThen asTaskWorkerAction(taskId, cc.executionContext)
 }
