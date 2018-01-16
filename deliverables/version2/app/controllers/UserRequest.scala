@@ -9,9 +9,7 @@ import db._
 class UserRequest[A](
     request: MessagesRequest[A],
     val user: models.User)
-  extends MessagesRequest[A](request, request.messagesApi) {
-  def unwrap = request
-}
+  extends MessagesRequest[A](request, request.messagesApi)
 
 class WorkerRequest[A](
     request: MessagesRequest[A],
