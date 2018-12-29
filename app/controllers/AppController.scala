@@ -16,42 +16,6 @@ class AppController(cc: AppControllerComponents)
 
   def signup = TODO
 
-  def cour1 = Action { implicit request: Request[AnyContent] =>
-
-    Ok(views.html.cour1())
-
-  }
-
-  def cour2 = Action { implicit request: Request[AnyContent] =>
-
-    Ok(views.html.cour2())
-
-  }
-
-  def cour3 = Action { implicit request: Request[AnyContent] =>
-
-    Ok(views.html.cour3())
-
-  }
-
-  def cour4 = Action { implicit request: Request[AnyContent] =>
-
-    Ok(views.html.cour4())
-
-  }
-
-  def cour5 = Action { implicit request: Request[AnyContent] =>
-
-    Ok(views.html.cour5())
-
-  }
-
-  def cour6 = Action { implicit request: Request[AnyContent] =>
-
-    Ok(views.html.cour6())
-
-  }
-
   /** Displays the form which asks for user credentials.  */
   def signinForm = Action { implicit request =>
     Ok(views.html.signin(SigninForm.form)(request))

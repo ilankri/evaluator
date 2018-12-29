@@ -22,24 +22,6 @@ POST    /signin                 controllers.AppController.signin
 # End the user session.
 GET	/signout		controllers.AppController.signout
 
-#show detail of cours numéro 1
-GET    /users/cour1.html     controllers.AppController.cour1
-
-#show detail of cours numéro 2
-GET    /users/cour2.html     controllers.AppController.cour2
-
-#show detail of cours number 3
-GET    /users/cour3.html     controllers.AppController.cour3
-
-#show detail of cours4
-GET    /users/cour4.html     controllers.AppController.cour4
-
-#show detail of cours5
-GET    /users/cour5.html     controllers.AppController.cour5
-
-#show detail of cours6
-GET    /users/cour6.html     controllers.AppController.cour6
-
 # Show the home page of the user with the given ID.
 GET     /users/:id              controllers.Users.read(id: Long)
 
