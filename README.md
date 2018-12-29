@@ -1,14 +1,14 @@
 ## Team members
 
-* HOUMADA Fatima-Zahra
+* Hamdi Hassine
 
-* KHENTOUT Manel
+* Fatima-Zahra Houmada
 
-* HASSINE Hamdi
+* Souhail Ismaili-Alaoui
 
-* ISMAILI-ALAOUI Souhail
+* Manel Khentout
 
-* LANKRI Idir
+* Idir Lankri
 
 ## Link to the demo video
 
@@ -18,11 +18,11 @@ https://drive.google.com/file/d/12wD7ISRl8NgTrD4k_efzIdTHugRUzoEp/view
 
 See
 https://www.playframework.com/documentation/2.6.x/PlayConsole#Running-the-server-in-development-mode
-for more information about development mode of Play Framework.
+for more information about the development mode of Play Framework.
 
 ### Start the server
 
-Open a terminal, go to the project root directory and type:
+Open a terminal, go to the root directory of the project and type:
 
 ```shell
 sbt run
