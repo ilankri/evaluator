@@ -13,7 +13,7 @@ private[util] class ConcurrentSet[A](_elems: Set[A])
     *
     * @return the set itself.
     */
-  def +=(elem: A) = {
+  def addOne(elem: A) = {
     elems.updateAndGet(_ + elem)
     this
   }
@@ -23,7 +23,7 @@ private[util] class ConcurrentSet[A](_elems: Set[A])
     *
     * @return the set itself.
     */
-  def -=(elem: A) = {
+  def subtractOne(elem: A) = {
     elems.updateAndGet(_ - elem)
     this
   }
