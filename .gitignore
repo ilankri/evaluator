@@ -5,6 +5,7 @@
 *.class
 
 # sbt stuff
+.bsp/
 target/
 
 # Play stuff
